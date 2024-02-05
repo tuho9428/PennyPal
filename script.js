@@ -9,16 +9,13 @@ function addExpense() {
 
     if (expenseName !== '' && expenseAmount !== '') {
         const expense = `${expenseName} - $${expenseAmount}`;
-        saveExpense(expense);
         appendExpenseToList(expense);
         expenseNameInput.value = '';
         expenseAmountInput.value = '';
     }
 }
 
-function saveExpense(expense) {
-    // Implement saving the expense to the database or any other necessary action
-}
+
 
 function appendExpenseToList(expense) {
     const expenseList = document.getElementById('expenseList');
