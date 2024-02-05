@@ -1,0 +1,261 @@
+nav li {
+    display: inline;
+ }
+ 
+ nav li a {
+    text-decoration: none;  
+    padding: 10px 20px;
+ }
+ 
+ nav li a:hover {
+    color: rgb(250, 247, 247);
+    background-color: rgb(119, 14, 14);    
+ }
+
+ nav ul {
+    list-style-type: none;
+    padding: 10px 0;
+ }
+
+
+.container {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px; /* Adjust the margin-bottom value as needed */
+}
+
+.nav-container{
+    margin-bottom: 20px; /* Adjust the margin-bottom value as needed */
+}
+
+.top-container{
+    margin-bottom: 20px; /* Adjust the margin-bottom value as needed */
+}
+
+.footer {
+    margin-top: 20px; /* Adjust the margin-top value as needed */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center; /* Align items vertically */
+}
+
+.logo-container img {
+    width: 50px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Add space between image and text */
+}
+
+.container h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white; /* Adjust text color as needed */
+    z-index: 1; /* Ensure text is above the image */
+}
+
+.container p {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white; /* Adjust text color as needed */
+    z-index: 1; /* Ensure text is above the image */
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: brightness(0.5); /* Adjust the brightness value as needed */
+}
+
+.middle-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Adjust the margin-bottom value as needed */
+}
+
+.middle-container > div {
+    flex-basis: 30%; /* Adjust the width of each column as needed */
+}
+
+img {
+    width: 100%; /* Adjust image width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* footer*/
+.footer {
+    background-color: #f5f5f5;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.footer-info,
+.footer-links,
+.footer-contact {
+    flex: 1;
+    margin: 0 20px;
+}
+
+.footer h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.footer p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 5px;
+}
+
+.footer-links a {
+    color: #333;
+    text-decoration: none;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+}
+
+.small-text {
+    font-size: 12px;
+    color: #999;
+}
+
+
+.bottom-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.bottom-container > div {
+    flex-basis: calc(50% - 10px); /* 50% width minus margin */
+    margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+img {
+    width: 100%;
+    height: 50%;
+}
+
+.team {
+    margin-bottom: 30px; /* Adjust the margin-bottom value as needed */
+}
+
+/* Style for form container */
+.form-container {
+    width: 400px;
+    margin: 0 auto;
+}
+
+/* Style for form group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Style for labels */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Style for input fields */
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+/* Style for submit button */
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style for submit button on hover */
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Style for the form container */
+.form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for labels */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Style for input fields */
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Style for buttons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Style for unordered list */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Style for list items */
+li {
+    margin-bottom: 5px;
+}
