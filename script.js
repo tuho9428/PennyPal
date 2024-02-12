@@ -55,6 +55,12 @@ $(document).ready(function() {
         // Show the "Add Expense" section once a month has been selected
         monthSelect.on('change', function() {
             $('#add-section').show();
+            $('#expenseList').empty();
+        });
+        
+        // Clear the expense list when a year is selected
+        $('.yearBtn').on('click', function() {
+            $('#expenseList').empty();
         });
     });
 
