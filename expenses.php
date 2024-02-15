@@ -1,5 +1,6 @@
 <?php
 include 'partials/header.php';
+include_once 'db_connection.php';
 
 // Start the session
 session_start();
@@ -28,24 +29,6 @@ if (isset($_POST['logout'])) {
     // Redirect to login page after logout
     header("Location: login.php");
     exit();
-}
-
-// db_connection
-
-
-
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "mydata";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
 }
 
 // Check if form is submitted
@@ -112,7 +95,7 @@ $conn->close();
     <ul id="month"></ul>
 
     <div id="add-section">
-        <form action="http://localhost/PennyPal3/expenses.php" method="POST">
+        <form action="expenses.php" method="POST">
             <div>
                 <label for="expenseNameInput">Description:</label>
                 <input type="text" id="descriptionInput" name="expenseName" placeholder="Enter expense description">

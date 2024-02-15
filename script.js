@@ -1,6 +1,7 @@
 $(document).ready(function () {
   // Hide the "Add Expense" button initially
   $("#add-section").hide();
+  // ... (your existing code)
 
   $("#addExpenseBtn").click(function () {
     const expenseName = $("#descriptionInput").val().trim();
@@ -15,14 +16,13 @@ $(document).ready(function () {
       date !== ""
     ) {
       const expense = `${expenseName} - $${expenseAmount} - ${category} - ${date}`;
+
+      // Append expense to the list (for immediate display)
       appendExpenseToList(expense);
 
-      // Clear input fields after adding expense
-      $("#descriptionInput").val("");
-      $("#expenseAmountInput").val("");
-      $("#categoryInput").val("");
+
     } else {
-      alert("Please enter expense name and amount.");
+      alert("Please enter expense details.");
     }
   });
 

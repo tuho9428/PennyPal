@@ -1,18 +1,6 @@
 <?php
 include 'partials/header.php';
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "mydata";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include_once 'db_connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
