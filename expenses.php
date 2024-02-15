@@ -1,58 +1,16 @@
 <?php
 include 'partials/header.php';
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "mydata";
-
-// Establish database connection
-$mysqli = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($mysqli->connect_errno) {
-    echo "Failed to connect to MySQL: " . $mysqli->connect_error;
-    exit();
-}
-
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and validate input
-    $description = mysqli_real_escape_string($mysqli, $_POST["descriptionInput"]);
-    $amount = mysqli_real_escape_string($mysqli, $_POST["expenseAmountInput"]);
-    $category = mysqli_real_escape_string($mysqli, $_POST["categoryInput"]);
-    $date = mysqli_real_escape_string($mysqli, $_POST["dateInput"]);
-
-    // Insert data into expenses table
-    $sql = "INSERT INTO expenses ( amount, category, description, expense_date) 
-    VALUES ( $description, $amount, $category, $date)";
-    $stmt = $mysqli->prepare($sql);
-
-    // Bind parameters and execute statement
-    $stmt->bind_param("idsss", $user_id, $amount, $category, $description, $date);
-    $stmt->execute();
-
-    // Check for errors
-    if ($stmt->errno) {
-        echo "Error: " . $stmt->error;
-    } else {
-        echo "Expense added successfully!";
-    }
-
-    // Close statement
-    $stmt->close();
-}
-
-// Close connection
-$mysqli->close();
-
 // Start the session
 session_start();
+
+// Access user_id from session variable
+$user_id = $_SESSION['user_id'];
 
 // Check if the 'logged_in' session variable exists and is set to true
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     // User is logged in, display the expenses page content
-    echo "Welcome to the expenses page!!!";
+    echo "Welcome to the expenses page!";
 } else {
     // User is not logged in, redirect them to the login page
     header("Location: login.php");
@@ -71,7 +29,63 @@ if (isset($_POST['logout'])) {
     header("Location: login.php");
     exit();
 }
+
+// db_connection
+
+
+
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "mydata";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve user input from form
+    $expenseName = $_POST['expenseName'] ?? '';
+    $expenseAmount = $_POST['expenseAmount'] ?? '';
+    $category = $_POST['category'] ?? '';
+    $date = $_POST['date'] ?? '';
+
+    // Validate input (you can add more validation here)
+
+    // Check if amount is not null
+    if (!empty($expenseAmount)) {
+        // Prepare and bind SQL statement
+        $stmt = $conn->prepare("INSERT INTO expenses (user_id, amount, category, description, expense_date) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("idsss", $user_id, $expenseAmount, $category, $expenseName, $date);
+
+
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            echo "Expense saved successfully.";
+        } else {
+            echo "Error: " . $conn->error;
+        }
+
+        // Close the statement
+        $stmt->close();
+    } else {
+        echo "Amount cannot be empty.";
+    }
+}
+
+// Close the connection
+$conn->close();
 ?>
+
+
+
 
 
 <div class="a-container">
@@ -91,7 +105,6 @@ if (isset($_POST['logout'])) {
         <!-- Add more buttons for other years as needed -->
     </div>
 
-
     <!-- Display selected year -->
     <ul id="year"></ul>
 
@@ -99,29 +112,37 @@ if (isset($_POST['logout'])) {
     <ul id="month"></ul>
 
     <div id="add-section">
-        <div>
-            <label for="expenseNameInput">Description:</label>
-            <input type="text" id="descriptionInput" placeholder="Enter expense description">
-        </div>
+        <form action="http://localhost/PennyPal3/expenses.php" method="POST">
+            <div>
+                <label for="expenseNameInput">Description:</label>
+                <input type="text" id="descriptionInput" name="expenseName" placeholder="Enter expense description">
+            </div>
 
-        <div>
-            <label for="expenseAmountInput">Expense Amount:</label>
-            <input type="text" id="expenseAmountInput" placeholder="Enter expense amount">
-        </div>
+            <div>
+                <label for="expenseAmountInput">Expense Amount:</label>
+                <input type="text" id="expenseAmountInput" name="expenseAmount" placeholder="Enter expense amount">
+            </div>
 
-        <div>
-            <label for="expenseNameInput">Category:</label>
-            <input type="text" id="categoryInput" placeholder="Enter expense name">
-        </div>
+            <div>
+                <label for="categoryInput">Category:</label>
+                <select id="categoryInput" name="category">
+                    <option value="food">Food</option>
+                    <option value="transportation">Transportation</option>
+                    <option value="housing">Housing</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
 
-        <div>
-            <label for="expenseDateInput">Date:</label>
-            <input type="date" id="dateInput" placeholder="Enter expense date" value="">
-        </div>
 
-        <div>
-            <button id="addExpenseBtn" type="submit">Add Expense</button>
-        </div>
+            <div>
+                <label for="expenseDateInput">Date:</label>
+                <input type="date" id="dateInput" name="date" placeholder="Enter expense date" value="">
+            </div>
+
+            <div>
+                <button type="submit" id="addExpenseBtn">Add Expense</button>
+            </div>
+        </form>
     </div>
 
     <!-- Display added expenses -->

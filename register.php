@@ -62,16 +62,18 @@ $conn->close(); // Close the database connection
       </div>
     </div>
 
+        <!-- Makes POST request to /login route
     <div class="col-sm-4">
-      <div class="card social-block">
+      <div class="card">
         <div class="card-body">
           <a class="btn btn-dark" href="/auth/google" role="button">
             <i class="fab fa-google"></i>
-            Sign Up with Google
+            Sign In with Google
           </a>
         </div>
       </div>
     </div>
+    -->
 
   </div>
 </div>

@@ -11,31 +11,37 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 
 // Check connection
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+  die("Connection failed: " . mysqli_connect_error());
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+  $username = $_POST['username'];
+  $password = $_POST['password'];
 
-    // Prepare the SQL statement to fetch user data
-    $sql = "SELECT * FROM users WHERE email='$username' AND password='$password'";
-    $result = mysqli_query($conn, $sql);
+  // Prepare the SQL statement to fetch user data
+  $sql = "SELECT * FROM users WHERE email='$username' AND password='$password'";
+  $result = mysqli_query($conn, $sql);
 
-// Start the session
-session_start();
+  // Start the session
+  session_start();
 
-    // Check if user with given credentials exists
-    if (mysqli_num_rows($result) == 1) {
-        // Valid login, redirect to expenses.php
-        $_SESSION['logged_in'] = true;
+  // Check if user with given credentials exists
+  if (mysqli_num_rows($result) == 1) {
 
-        header("Location: expenses.php");
-        exit();
-    } else {
-        // Invalid login, display error message
-        echo "Invalid username or password. Please try again.";
-    }
+    // Valid login, fetch user_id and store it in session variable
+    $row = mysqli_fetch_assoc($result);
+    $_SESSION['user_id'] = $row['user_id'];
+    
+    // Valid login, redirect to expenses.php
+    $_SESSION['logged_in'] = true;
+
+    header("Location: expenses.php");
+    
+    exit();
+  } else {
+    // Invalid login, display error message
+    echo "Invalid username or password. Please try again.";
+  }
 }
 ?>
 
@@ -64,6 +70,7 @@ session_start();
       </div>
     </div>
 
+    <!-- Makes POST request to /login route
     <div class="col-sm-4">
       <div class="card">
         <div class="card-body">
@@ -74,7 +81,7 @@ session_start();
         </div>
       </div>
     </div>
-
+    -->
   </div>
 </div>
 

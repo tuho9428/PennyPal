@@ -46,29 +46,31 @@
             <ul id="month"></ul>
         
             <div id="add-section">
-                <div>
-                    <label for="expenseNameInput">Description:</label>
-                    <input type="text" id="descriptionInput" placeholder="Enter expense description">
-                </div>
+                <form action="save.php" method="POST">
+                    <div>
+                        <label for="expenseNameInput">Description:</label>
+                        <input type="text" id="descriptionInput" placeholder="Enter expense description">
+                    </div>
         
-                <div>
-                    <label for="expenseAmountInput">Expense Amount:</label>
-                    <input type="text" id="expenseAmountInput" placeholder="Enter expense amount">
-                </div>
+                    <div>
+                        <label for="expenseAmountInput">Expense Amount:</label>
+                        <input type="text" id="expenseAmountInput" placeholder="Enter expense amount">
+                    </div>
         
-                <div>
-                    <label for="expenseNameInput">Category:</label>
-                    <input type="text" id="categoryInput" placeholder="Enter expense name">
-                </div>
+                    <div>
+                        <label for="expenseNameInput">Category:</label>
+                        <input type="text" id="categoryInput" placeholder="Enter expense name">
+                    </div>
         
-                <div>
-                    <label for="expenseDateInput">Date:</label>
-                    <input type="date" id="dateInput" placeholder="Enter expense date" value="">
-                </div>
+                    <div>
+                        <label for="expenseDateInput">Date:</label>
+                        <input type="date" id="dateInput" placeholder="Enter expense date" value="">
+                    </div>
         
-                <div>
-                    <button type="submit" id="addExpenseBtn">Add Expense</button>
-                </div>
+                    <div>
+                        <button type="submit" id="addExpenseBtn">Add Expense</button>
+                    </div>
+                </form>
             </div>
         
             <!-- Display added expenses -->
