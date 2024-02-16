@@ -52,6 +52,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Execute the statement
         if ($stmt->execute()) {
             echo "Expense saved successfully.";
+
+            // Example:
+            // Retrieve the inserted expense_id
+            $expense_id = $stmt->insert_id;
+
+            // Get the year and month from the submitted expense data
+            $year = date('Y', strtotime($date));
+            $month = date('n', strtotime($date));
+
+            // Check if the year exists in the expense_years table
+            $stmt_year = $conn->prepare("SELECT year_id FROM expense_years WHERE user_id = ? AND year = ?");
+            $stmt_year->bind_param("ii", $user_id, $year);
+            $stmt_year->execute();
+            $stmt_year->store_result();
+
+            if ($stmt_year->num_rows == 0) {
+                // Insert the year into the expense_years table if it does not exist
+                $stmt_insert_year = $conn->prepare("INSERT INTO expense_years (user_id, year) VALUES (?, ?)");
+                $stmt_insert_year->bind_param("ii", $user_id, $year);
+                $stmt_insert_year->execute();
+                $stmt_insert_year->close();
+            }
+
+            // Retrieve the year_id from the inserted or existing record in the expense_years table
+            $stmt_year->bind_result($year_id);
+            $stmt_year->fetch();
+            $stmt_year->close();
+
+            // Check if the month exists in the expense_months table
+            $stmt_month = $conn->prepare("SELECT month_id FROM expense_months WHERE year_id = ? AND month = ?");
+            $stmt_month->bind_param("ii", $year_id, $month);
+            $stmt_month->execute();
+            $stmt_month->store_result();
+
+            // Retrieve the year_id from the expense_years table
+            $stmt_year_id = $conn->prepare("SELECT year_id FROM expense_years WHERE user_id = ? AND year = ?");
+            $stmt_year_id->bind_param("ii", $user_id, $year);
+            $stmt_year_id->execute();
+            $stmt_year_id->bind_result($year_id);
+            $stmt_year_id->fetch();
+            $stmt_year_id->close();
+
+            if ($stmt_month->num_rows == 0) {
+                // Insert the month into the expense_months table if it does not exist
+                $stmt_insert_month = $conn->prepare("INSERT INTO expense_months (year_id, month) VALUES (?, ?)");
+                $stmt_insert_month->bind_param("ii", $year_id, $month);
+                $stmt_insert_month->execute();
+                $stmt_insert_month->close();
+            }
+
+            // Retrieve the month_id from the inserted or existing record in the expense_months table
+            // Prepare and execute a SELECT query to retrieve the month_id
+            $stmt_select_month_id = $conn->prepare("SELECT month_id FROM expense_months WHERE year_id = ? AND month = ?");
+            $stmt_select_month_id->bind_param("ii", $year_id, $month);
+            $stmt_select_month_id->execute();
+            $stmt_select_month_id->bind_result($month_id); // Bind a variable to store the result
+            $stmt_select_month_id->fetch(); // Fetch the result
+            $stmt_select_month_id->close(); // Close the statement
+
+            // Now, $month_id contains the month_id for the given year_id and month
+
+
+            // Insert the expense_month_details record
+            $stmt_expense_month_details = $conn->prepare("INSERT INTO expense_month_details (month_id, expense_id) VALUES (?, ?)");
+            $stmt_expense_month_details->bind_param("ii", $month_id, $expense_id);
+            $stmt_expense_month_details->execute();
+            $stmt_expense_month_details->close();
+
         } else {
             echo "Error: " . $conn->error;
         }
@@ -89,10 +157,10 @@ $conn->close();
     </div>
 
     <!-- Display selected year -->
-    <ul id="year"></ul>
+    <ul id="year" name="year"></ul>
 
     <!-- Display selected month -->
-    <ul id="month"></ul>
+    <ul id="month" name="month" ></ul>
 
     <div id="add-section">
         <form action="expenses.php" method="POST">
