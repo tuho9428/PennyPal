@@ -1,6 +1,11 @@
 <?php
 include 'partials/header.php';
+
+
 ?>
+
+
+<!-- The rest of your HTML code remains unchanged -->
 
 
 <section>
@@ -21,7 +26,7 @@ include 'partials/header.php';
 
 
         <div class="form-container">
-            <form action="submit_form.php" method="post">
+            <form action="send_email.php" method="post">
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" placeholder="Enter your Name" required>

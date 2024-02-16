@@ -1,0 +1,67 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ha'Matata Restaurant</title>
+  <link rel="stylesheet" href="../CSS/header.css">
+  <link rel="stylesheet" href="../CSS/footer.css">
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@1,200&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../CSS/reservation.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="../JS/javascript.js"></script>
+  <script src="../JS/reservation.js"></script>
+</head>
+<body>
+<!-- Menubar -->
+<div class="header">
+  <a href="./index.html" class="logo">
+    <img src="../images/HaMatata Logo - White with Black Background - 5000x5000.png" alt="CompanyLogo">
+    <div class="header-right"  id="myTopnav">
+    <a href="./index.html">Home</a>
+    <a href="./about.html">About</a>
+    <a href="./location.html">Location</a>
+    <a href="./menu.html">Menu</a>
+    <a href="./reservation.html" class="active">Reservation</a>
+    <a href="./contact.html">Contact</a>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+  <!-- Reservation -->
+  <section class ="reservation">
+  <div class="contact-container">
+    <h1 class="custom-heading">RESERVATION</h1>
+    <p>Visit our vibrant bar-dining restaurant for a delightful experience. We've got you covered.</p>
+    <p>Indulge in our curated selection of drinks and bites, where each item is crafted to elevate your bar-dining experience, balancing flavors and presentation.</p>
+    <p class="custom-paragraph"><b>Reserve</b> a spot, inquire about our daily specials, or simply drop us a message:</p>
+    <form id="reservationForm" action="resvervation.php" method="post">
+      <div class="input-container">
+        <input class="custom-input" type="text" placeholder="Name" required name="Name">
+        <input class="custom-input" type="number" placeholder="Number of Guests" required name="Guests" min="1">
+        <input class="custom-input" type="datetime-local" placeholder="Date and Time" required name="date" value="2024-02-03T20:00" min="" step="3600">
+        <input class="custom-input" type="text" placeholder="Special Requests" required name="Message">
+        <select class="custom-input" name="place" required>
+          <option value="" selected disabled hidden>Choose a Place</option>
+          <option value="Des Moines">Des Moines</option>
+          <option value="Seattle">Seattle</option>
+        </select>
+      </div>
+      <button class="custom-button" type="submit">SEND REQUEST</button>
+    </form>
+  </section>
+  
+<!-- Footer -->
+<div class="footer">
+  <p>© 2024 HA'MATATA. STAY CONNECTED</p>
+</div>
+
+</body>
+</html>
