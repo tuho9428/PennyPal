@@ -1,3 +1,14 @@
+$(document).ready(function () {
+    // Hide the "Add Expense" button initially
+    $("#add-section").hide();
+    // ... (your existing code)
+
+    $(".expensesBtn").click(function () {
+        $("#add-section").show();
+    });
+});
+  
+
 // Get today's date in local time zone
 let today = new Date();
 

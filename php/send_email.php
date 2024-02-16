@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->send(); // Send the email
         // Redirect back to the form if accessed directly
         echo 'Thank you for your submission!';
-        header("Location: contact.php");
+        header("Location: ../contact.html");
         exit();
 
     } catch (Exception $e) {

@@ -1,6 +1,6 @@
 <?php
-include 'php/header.php';
-include_once 'php/db_connection.php';
+
+include_once 'db_connection.php';
 
 // Start the session
 session_start();
@@ -14,7 +14,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     echo "Welcome to the expenses page!";
 } else {
     // User is not logged in, redirect them to the login page
-    header("Location: login.html");
+    header("Location: ../login.html");
     exit();
 }
 
@@ -27,7 +27,7 @@ if (isset($_POST['logout'])) {
     session_destroy();
 
     // Redirect to login page after logout
-    header("Location: login.html");
+    header("Location: ../login.html");
     exit();
 }
 
@@ -136,68 +136,3 @@ $conn->close();
 ?>
 
 
-
-
-<div class="a-container">
-    <h2>Add Expenses</h2>
-    <p>Keep track of your money!</p>
-
-    <img id="add" src="./images/add.jpg" alt="Home 1">
-
-</div>
-
-
-<div class="add-container">
-
-    <div>
-        <button class="expensesBtn" >Add Expenses</button>
-    </div>
-
-
-
-    <div id="add-section">
-        <form method="POST">
-            <div>
-                <label for="expenseNameInput">Description:</label>
-                <input type="text" id="descriptionInput" name="expenseName" placeholder="Enter expense description">
-            </div>
-
-            <div>
-                <label for="expenseAmountInput">Expense Amount:</label>
-                <input type="text" id="expenseAmountInput" name="expenseAmount" placeholder="Enter expense amount">
-            </div>
-
-            <div>
-                <label for="categoryInput">Category:</label>
-                <select id="categoryInput" name="category">
-                    <option value="food">Food</option>
-                    <option value="transportation">Transportation</option>
-                    <option value="housing">Housing</option>
-                    <!-- Add more options as needed -->
-                </select>
-            </div>
-
-
-            <div>
-                <label for="expenseDateInput">Date:</label>
-                <input type="date" id="dateInput" name="date" placeholder="Enter expense date" value="">
-            </div>
-
-            <div>
-                <button type="submit" id="addExpenseBtn">Add Expense</button>
-            </div>
-        </form>
-    </div>
-
-
-</div>
-
-
-<form method="post">
-    <button type="submit" name="logout">Logout</button>
-</form>
-
-
-<?php
-include 'php/footer.php';
-?>
