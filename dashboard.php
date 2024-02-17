@@ -139,63 +139,53 @@ $conn->close();
 
 
 <div class="a-container">
-    <h2>Add Expenses</h2>
-    <p>Keep track of your money!</p>
+    <h2>User Dashboard</h2>
+    <p>Explore more here!</p>
 
-    <img id="add" src="./images/add.jpg" alt="Home 1">
+    <img id="add" src="./images/user.jpg" alt="Home 1">
 
 </div>
 
 
-<div class="add-container">
 
-    <div>
-        <button class="expensesBtn" >Add Expenses</button>
-    </div>
+<div class="container mt-5">
 
 
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
 
-    <div id="add-section">
-        <form method="POST">
-            <div>
-                <label for="expenseNameInput">Description:</label>
-                <input type="text" id="descriptionInput" name="expenseName" placeholder="Enter expense description">
+          <!-- Makes POST request to /login route -->
+        
+            <div class="form-group">
+        
+                <button class="addExpensesBtn"  > <a href="add.html">Add Expenses</a ></button>
+
             </div>
 
-            <div>
-                <label for="expenseAmountInput">Expense Amount:</label>
-                <input type="text" id="expenseAmountInput" name="expenseAmount" placeholder="Enter expense amount">
-            </div>
+            <div class="form-group">
+        
+                <button class="addExpensesBtn"  > <a href="set.html">Set Budget</a ></button>
 
-            <div>
-                <label for="categoryInput">Category:</label>
-                <select id="categoryInput" name="category">
-                    <option value="food">Food</option>
-                    <option value="transportation">Transportation</option>
-                    <option value="housing">Housing</option>
-                    <!-- Add more options as needed -->
-                </select>
             </div>
+            <div class="form-group">
+        
+                <button class="addExpensesBtn"  > <a href="report.html">Reports</a ></button>
 
-
-            <div>
-                <label for="expenseDateInput">Date:</label>
-                <input type="date" id="dateInput" name="date" placeholder="Enter expense date" value="">
             </div>
-
-            <div>
-                <button type="submit" id="addExpenseBtn">Add Expense</button>
-            </div>
+            <div class="form-group">
+            <form method="post">
+                <button type="submit" name="logout">Logout</button>
         </form>
+            </div>
+
+
+        </div>
+      </div>
     </div>
-
-
-</div>
-
-
-<form method="post">
-    <button type="submit" name="logout">Logout</button>
-</form>
+    </div>
+    </div>
 
 
 <?php

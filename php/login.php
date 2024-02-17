@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Valid login, redirect to expenses.php
     $_SESSION['logged_in'] = true;
 
-    header("Location: ../expenses.php");
+    header("Location: ../dashboard.php");
     
     exit();
   } else {

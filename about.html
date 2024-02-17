@@ -9,6 +9,8 @@
   <script src="script.js" defer></script>
   
 </head>
+
+<body>
 <header>
   <div class="top-container">
     <div class="logo-container">
@@ -24,7 +26,7 @@
         <li><a href="home.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="expenses.php">Expenses</a></li>
+        <li><a href="dashboard.php">User Dashboard</a></li>
         <li><a href="login.html">Login</a></li>
         <li><a href="register.html">Register</a></li>
       </ul>
@@ -75,7 +77,7 @@
 
    <div class="bottom-container">
         <div>
-            <img src= "./images/contact12.jpg"  style="width: 100%; height: 50%;  border-radius: 60%;" alt= "home12"> 
+            <img src= "./images/contact12.jpg" class="lightbox-image"  style="width: 100%; height: 50%;  border-radius: 60%;" alt= "home12"> 
             <h3>Tu Ho</h3>
             <p>dsfhkj shdfkj ksfhsj fhsdfjk skdjfh skdjf h skjhs 
                 khjsf khskjf hk fjhskj fhjf hskjfh sjkfh
@@ -87,7 +89,7 @@
 
         
         <div>
-            <img src= "./images/contact12.jpg"  style="width: 100%; height: 50%; border-radius: 60%;" alt= "home14"> 
+            <img src= "./images/contact12.jpg" class="lightbox-image"  style="width: 100%; height: 50%; border-radius: 60%;" alt= "home14"> 
             <h3>Jake</h3>
             <p>dsfhkj shdfkj ksfhsj fhsdfjk skdjfh skdjf h skjhs 
                 khjsf khskjf hk fjhskj fhjf hskjfh sjkfh
@@ -97,6 +99,7 @@
             </p>
         </div>
     </div>
+
    
 </section>
 
@@ -126,8 +129,23 @@
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+  // Image Lightbox
+$(".lightbox-image").click(function () {
+  let imageUrl = $(this).attr("src");
+  $("body").append(
+    '<div class="lightbox-overlay"><img src="' +
+      imageUrl +
+      '" class="lightbox-displayed-image"></div>'
+  );
+  $(".lightbox-overlay").click(function () {
+    $(this).remove();
+  });
+});
+</script>
 
 </body>
 </html>
