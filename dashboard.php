@@ -146,10 +146,7 @@ $conn->close();
 
 </div>
 
-
-
 <div class="container mt-5">
-
 
   <div class="row">
     <div class="col-sm-8">

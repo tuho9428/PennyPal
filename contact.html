@@ -41,11 +41,18 @@
           alt="Home 1"
         />
       </div>
+      
       <div class="container">
+        <img
+        id="disappearing-image"
+        src="./images/contact1.jpg"
+        style="width: 100%; height: 100px"
+        alt="Home 1"
+      />
         <div id="slideshow-container">
           <img
             id="slideshow-img"
-            style="width: 100%; height: 100px"
+            style="width: 100%; height: 100px; display: none;"
             alt="Slideshow Image"
           />
         </div>
@@ -131,29 +138,6 @@
     </footer>
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-      // Change image
-      $(document).ready(function () {
-        let currentIndex = 0;
-        const images = [
-          "./images/home1.jpg",
-          "./images/home12.jpeg",
-          "./images/home13.jpeg",
-          "./images/home14.png",
-        ]; // Add more image paths as needed
-        const imgElement = $("#slideshow-img");
-
-        function changeImage() {
-          imgElement.fadeOut("slow", function () {
-            imgElement.attr("src", images[currentIndex]);
-            imgElement.fadeIn("slow");
-          });
-
-          currentIndex = (currentIndex + 1) % images.length;
-        }
-
-        setInterval(changeImage, 5000); // Change image every 5 seconds
-      });
-    </script>
+    <script></script>
   </body>
 </html>

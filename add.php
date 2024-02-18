@@ -1,3 +1,36 @@
+<?php
+// Database credentials
+$hostname = "localhost"; // or your database host
+$dbname = "mydata";
+$username = "root";
+$password = "";
+
+// Attempt to establish a connection
+try {
+    $pdo = new PDO("mysql:host=$hostname;dbname=$dbname", $username, $password);
+    // Set PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    // Handle connection errors
+    echo "Connection failed: " . $e->getMessage();
+}
+
+//<!-- PHP code to fetch categories from the database -->
+
+// Assuming you have a database connection established
+// Connect to the database and fetch categories
+$categories = []; // Initialize an empty array to store categories
+$sql = "SELECT category_id, category_name FROM categories";
+$result = $pdo->query($sql);
+
+// Fetch categories and store them in an array
+while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+    $categories[$row['category_id']] = $row['category_name'];
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +39,7 @@
   <title> PennyPal</title>
   <link href="./CSS/index.css" rel="stylesheet">
   <link href="./CSS/login.css" rel="stylesheet">
-  <script src="../script.js" defer></script>
+  <script src="script.js" defer></script>
   
 </head>
 <header>
@@ -45,7 +78,7 @@
 <div class="add-container">
 
     <div id="add-section">
-        <form method="POST">
+        <form method="POST" action="php/expenses1.php" >
             <div>
                 <label for="expenseNameInput">Description:</label>
                 <input type="text" id="descriptionInput" name="expenseName" placeholder="Enter expense description">
@@ -56,14 +89,21 @@
                 <input type="text" id="expenseAmountInput" name="expenseAmount" placeholder="Enter expense amount">
             </div>
 
-            <div>
-                <label for="categoryInput">Category:</label>
-                <select id="categoryInput" name="category">
-                    <option value="food">Food</option>
-                    <option value="transportation">Transportation</option>
-                    <option value="housing">Housing</option>
-                    <!-- Add more options as needed -->
-                </select>
+<!-- HTML code with PHP to generate dynamic options -->
+<div>
+    <label for="categoryInput">Category:</label>
+    <select id="categoryInput" name="category">
+        <option value="">Select a category</option>
+        <!-- Loop through categories and generate options -->
+        <?php foreach ($categories as $categoryId => $categoryName): ?>
+            <option value="<?php echo $categoryName; ?>"><?php echo $categoryName; ?></option>
+        <?php endforeach; ?>
+    </select>
+</div>
+
+
+            <div class="form-group">
+                <button class="addExpensesBtn"  > <a href="update.php">update category </a ></button>
             </div>
 
 
@@ -77,6 +117,8 @@
             </div>
         </form>
     </div>
+
+
 
 
 </div>
@@ -116,20 +158,10 @@
     </div>
 </footer>
 
-<script src="../script.js"></script>
+<script src="script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="script.js"></script>
 <script>
-// Get today's date in local time zone
-let today = new Date();
-
-// Adjust to local time zone
-today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
-
-// Format the date as YYYY-MM-DD (required by the date input type)
-let formattedDate = today.toISOString().slice(0, 10);
-
-// Set the default value of the input element to the current date
-document.getElementById("dateInput").value = formattedDate;
 
 </script>
 
