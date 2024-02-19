@@ -93,7 +93,7 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 <div>
     <label for="categoryInput">Category:</label>
     <select id="categoryInput" name="category">
-        <option value="">Select a category</option>
+        <option value="" disabled selected>Select a category</option>
         <!-- Loop through categories and generate options -->
         <?php foreach ($categories as $categoryId => $categoryName): ?>
             <option value="<?php echo $categoryName; ?>"><?php echo $categoryName; ?></option>
@@ -103,7 +103,7 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 
 
             <div class="form-group">
-                <button class="addExpensesBtn"  > <a href="update.php">update category </a ></button>
+                <button class="addExpensesBtn"  method="POST" action="update.php"> <a href="update.php">Add a New Category </a ></button>
             </div>
 
 

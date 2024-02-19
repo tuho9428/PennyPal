@@ -1,8 +1,8 @@
 <?php
 
-require 'C:\xampp\htdocs\phpmailer\src\PHPMailer.php';
-require 'C:\xampp\htdocs\phpmailer\src\Exception.php';
-require 'C:\xampp\htdocs\phpmailer\src\SMTP.php';
+require 'C:\xampp\htdocs\phpmailer\src\PHPMailer.php'; // phpmailer path
+require 'C:\xampp\htdocs\phpmailer\src\Exception.php'; // phpmailer path
+require 'C:\xampp\htdocs\phpmailer\src\SMTP.php'; // phpmailer path
 
 
 use PHPMailer\PHPMailer\PHPMailer;
