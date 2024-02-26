@@ -1,4 +1,21 @@
 <?php
+
+// Start the session
+session_start();
+
+// Access user_id from session variable
+$user_id = $_SESSION['user_id'];
+
+// Check if the 'logged_in' session variable exists and is set to true
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+    // User is logged in, display the expenses page content
+    echo "Welcome to the expenses page!";
+} else {
+    // User is not logged in, redirect them to the login page
+    header("Location: login.html");
+    exit();
+}
+
 // Database credentials
 $hostname = "localhost"; // or your database host
 $dbname = "mydata";
