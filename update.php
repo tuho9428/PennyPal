@@ -84,6 +84,10 @@ button:hover {
         <input type="text" id="newCategory" name="newCategory" placeholder="Enter new category name" required>
         <button type="submit">Add Category</button>
     </form>
+    
+    <form method="GET" action="add.php">
+        <button type="submit">Back to ADD</button>
+    </form>
 </body>
 
 </html>

@@ -58,3 +58,10 @@ INSERT INTO categories (category_name) VALUES
 ('Food'),
 ('Transportation'),
 ('Housing');
+
+CREATE TABLE budgets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    budget DECIMAL(10, 2) NOT NULL,
+    currency VARCHAR(3) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
