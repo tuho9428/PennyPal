@@ -72,3 +72,19 @@ CREATE TABLE timeframe_budgets (
     timeframe VARCHAR(10) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE category_budgets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    budget DECIMAL(10, 2) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE budgets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    budget DECIMAL(10, 2) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    timeframe VARCHAR(10) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
