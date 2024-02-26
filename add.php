@@ -22,26 +22,24 @@ $dbname = "mydata";
 $username = "root";
 $password = "";
 
-// Attempt to establish a connection
-try {
-    $pdo = new PDO("mysql:host=$hostname;dbname=$dbname", $username, $password);
-    // Set PDO error mode to exception
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    // Handle connection errors
-    echo "Connection failed: " . $e->getMessage();
+// Attempt to establish a connection using mysqli
+$mysqli = new mysqli($hostname, $username, $password, $dbname);
+
+// Check connection
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
 }
 
-//<!-- PHP code to fetch categories from the database -->
+//<!-- PHP code to fetch categories from the database using mysqli -->
 
-// Assuming you have a database connection established
+// Assuming you have a database connection established with mysqli
 // Connect to the database and fetch categories
 $categories = []; // Initialize an empty array to store categories
 $sql = "SELECT category_id, category_name FROM categories";
-$result = $pdo->query($sql);
+$result = $mysqli->query($sql);
 
 // Fetch categories and store them in an array
-while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+while ($row = $result->fetch_assoc()) {
     $categories[$row['category_id']] = $row['category_name'];
 }
 ?>
@@ -95,7 +93,7 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 <div class="add-container">
 
     <div id="add-section">
-        <form method="POST" action="php/expenses1.php" >
+        <form method="POST" action="php/expenses.php" >
             <div>
                 <label for="expenseNameInput">Description:</label>
                 <input type="text" id="descriptionInput" name="expenseName" placeholder="Enter expense description">
@@ -140,11 +138,14 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 
 </div>
 
+
 <div class="form-group">
-    <button class="addExpensesBtn"  > <a href="dashboard.php">User Dashboard</a ></button>
+<form method="get" action= "dashboard.php">
+    <button class="addExpensesBtn" type="submit" name="userdashboard">User Dashboard</button>
+</form>
 </div>
 
-<form method="post">
+<form method="post" action= "php/logout.php">
     <button type="submit" name="logout">Logout</button>
 </form>
 

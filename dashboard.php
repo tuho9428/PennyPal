@@ -163,7 +163,7 @@ $conn->close();
 
             <div class="form-group">
         
-                <button class="addExpensesBtn"  > <a href="set.html">Set Budget</a ></button>
+                <button class="addExpensesBtn"  > <a href="set.php">Set Budget</a ></button>
 
             </div>
             <div class="form-group">
