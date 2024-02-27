@@ -42,6 +42,20 @@ $result = $mysqli->query($sql);
 while ($row = $result->fetch_assoc()) {
   $categories[$row['category_id']] = $row['category_name'];
 }
+
+// Fetch budget settings for the user from the database
+$userBudgetSettings = [];
+$sqlBudget = "SELECT c.category_name, bs.budget_limit FROM budget_settings bs
+              JOIN categories c ON bs.category_id = c.category_id
+              WHERE bs.user_id = '$user_id'";
+$resultBudget = $mysqli->query($sqlBudget);
+
+if ($resultBudget->num_rows > 0) {
+    while ($rowBudget = $resultBudget->fetch_assoc()) {
+        $userBudgetSettings[$rowBudget['category_name']] = $rowBudget['budget_limit'];
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +66,7 @@ while ($row = $result->fetch_assoc()) {
     <link href="./CSS/index.css" rel="stylesheet" />
     <link href="./CSS/login.css" rel="stylesheet" />
     <link href="./CSS/set.css" rel="stylesheet" />
-    <script src="set.js" defer></script>
+    <!-- <script src="set.js" defer></script> -->
   </head>
   <body>
     <header>
@@ -85,6 +99,7 @@ while ($row = $result->fetch_assoc()) {
     </div>
 
     <div class="add-container">
+    <form method="POST" action="save_budget.php">
       <div class="budget-form">
         <label for="category">Select Category:</label>
         <select id="category" name="category">
@@ -101,8 +116,7 @@ while ($row = $result->fetch_assoc()) {
 
         <label for="timeframe">Select Timeframe:</label>
         <select id="timeframe" name="timeframe">
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
+          <!--<option value="monthly">Monthly</option> -->
           <option value="yearly">Yearly</option>
         </select>
 
@@ -114,9 +128,19 @@ while ($row = $result->fetch_assoc()) {
           step="0.01"
           placeholder="Enter budget amount"
         />
-        <button onclick="saveBudget()">Save Budget</button>
+        <!--<button onclick="saveBudget()">Save Budget</button> -->
+        <button type="submit" id="set">Set</button>
       </div>
+          </form>
     </div>
+
+    <!-- Display user's budget settings -->
+<h3>User Budget Settings:</h3>
+<ul>
+    <?php foreach ($userBudgetSettings as $category => $budgetLimit): ?>
+        <li><?php echo $category . ": $" . $budgetLimit; ?></li>
+    <?php endforeach; ?>
+</ul>
 
     <div class="form-group">
       <button class="addExpensesBtn">

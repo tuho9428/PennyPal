@@ -77,3 +77,16 @@ CREATE TABLE budgets (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE budget_settings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    category_id INT,
+    budget_limit DECIMAL(10, 2),
+    timeframe VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),  -- Assuming you have a 'users' table
+    FOREIGN KEY (category_id) REFERENCES categories(id)  -- Assuming you have a 'categories' table
+);
+
+

@@ -20,4 +20,3 @@ if ($result) {
 
 // Close the database connection
 mysqli_close($your_db_connection);
-?>
