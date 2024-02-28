@@ -18,10 +18,10 @@ nav ul {
 }
 
 .container {
-  position: relative;
+  position: flex;
   width: 100%;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 
 .nav-container {
