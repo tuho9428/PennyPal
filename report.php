@@ -1,49 +1,33 @@
 <?php
 
-// Start the session
 session_start();
 
-// Access user_id from session variable
 $user_id = $_SESSION['user_id'];
 
-// Check if the 'logged_in' session variable exists and is set to true
-if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-  // User is logged in, display the expenses page content
-  echo "Welcome to the expenses page!";
-} else {
-  // User is not logged in, redirect them to the login page
+if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
   header("Location: login.html");
   exit();
 }
 
-// Database credentials
-$hostname = "localhost"; // or your database host
+$hostname = "localhost";
 $dbname = "mydata";
 $username = "root";
 $password = "";
 
-// Attempt to establish a connection using mysqli
 $mysqli = new mysqli($hostname, $username, $password, $dbname);
 
-// Check connection
 if ($mysqli->connect_error) {
   die("Connection failed: " . $mysqli->connect_error);
 }
 
-//<!-- PHP code to fetch categories from the database using mysqli -->
-
-// Assuming you have a database connection established with mysqli
-// Connect to the database and fetch categories
-$categories = []; // Initialize an empty array to store categories
+$categories = [];
 $sql = "SELECT category_id, category_name FROM categories";
 $result = $mysqli->query($sql);
 
-// Fetch categories and store them in an array
 while ($row = $result->fetch_assoc()) {
   $categories[$row['category_id']] = $row['category_name'];
 }
 
-// Fetch budget settings for the user from the database
 $userBudgetSettings = [];
 $sqlBudget = "SELECT c.category_name, bs.budget_limit FROM budget_settings bs
               JOIN categories c ON bs.category_id = c.category_id
@@ -56,66 +40,9 @@ if ($resultBudget->num_rows > 0) {
   }
 }
 
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <title> PennyPal</title>
-  <link href="./CSS/index.css" rel="stylesheet">
-  <link href="./CSS/login.css" rel="stylesheet">
-  <script src="../script.js" defer></script>
-
-</head>
-<header>
-  <div class="top-container">
-    <div class="logo-container">
-      <img src="./images/logo.png" alt="Logo">
-      <h1>PennyPal</h1>
-    </div>
-
-  <div class="nav-container">
-    <nav>
-      <ul>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="dashboard.php">User Dashboard</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="register.html">Register</a></li>
-      </ul>
-    </nav>
-  </div>
-
-</header>
-
-<div class="a-container">
-    <h2>Reports</h2>
-    <p>Look at your journey here!</p>
-
-    <img id="add" src="./images/report.webp" alt="Home 1">
-
-</div>
-
-<div> 
-
-<div class="table-container">
-
-
-</div>
-
-<div class="add-container">
-<?php
-
-// Assuming you have a database connection established with mysqli
-
-// Initialize an array to store total expenses per category for each month and total amount per month
 $totalExpensesPerCategoryPerMonth = [];
 $totalAmountPerMonth = [];
 
-// Query to fetch total expenses for each category per month
 $sqlExpensesPerMonth = "SELECT c.category_name, SUM(e.amount) AS total_expense, MONTH(e.expense_date) AS expense_month
                         FROM expenses e
                         JOIN categories c ON e.category = c.category_name
@@ -123,17 +50,14 @@ $sqlExpensesPerMonth = "SELECT c.category_name, SUM(e.amount) AS total_expense, 
                         GROUP BY c.category_name, MONTH(e.expense_date)";
 $resultExpensesPerMonth = $mysqli->query($sqlExpensesPerMonth);
 
-// Fetch total expenses per category for each month and store them in the array
 while ($rowExpenseMonth = $resultExpensesPerMonth->fetch_assoc()) {
   $totalExpensesPerCategoryPerMonth[$rowExpenseMonth['category_name']][$rowExpenseMonth['expense_month']] = $rowExpenseMonth['total_expense'];
   $totalAmountPerMonth[$rowExpenseMonth['expense_month']] = isset($totalAmountPerMonth[$rowExpenseMonth['expense_month']]) ? $totalAmountPerMonth[$rowExpenseMonth['expense_month']] + $rowExpenseMonth['total_expense'] : $rowExpenseMonth['total_expense'];
 }
 
-// Display total expenses per category for each month and total amount per month in a table format
 echo "<table border='1'>
         <tr>
           <th>Category</th>";
-// Generating table headers for months dynamically
 for ($month = 1; $month <= 12; $month++) {
   echo "<th>Month " . $month . "</th>";
 }
@@ -141,7 +65,6 @@ echo "<th>Total Amount</th></tr>";
 foreach ($totalExpensesPerCategoryPerMonth as $category => $expensesPerMonth) {
   echo "<tr>
             <td>" . $category . "</td>";
-  // Displaying expenses for each month under respective category and calculating total amount per month
   $totalCategoryAmount = 0;
   for ($month = 1; $month <= 12; $month++) {
     $expenseForMonth = isset($expensesPerMonth[$month]) ? $expensesPerMonth[$month] : 0;
@@ -152,10 +75,8 @@ foreach ($totalExpensesPerCategoryPerMonth as $category => $expensesPerMonth) {
   echo "</tr>";
 }
 
-// Displaying total amount for each month even if there is no expense for that month
 echo "<tr>
         <td>Total</td>";
-// Displaying total amount for each month or 0 if there is no expense for that month
 for ($month = 1; $month <= 12; $month++) {
   $totalAmount = isset($totalAmountPerMonth[$month]) ? $totalAmountPerMonth[$month] : 0;
   echo "<td>$" . $totalAmount . "</td>";
@@ -164,19 +85,73 @@ echo "</tr>";
 
 ?>
 
-<div class="form-group">
-    <button class="addExpensesBtn"  > <a href="dashboard.php">User Dashboard</a ></button>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>PennyPal</title>
+  <link href="./CSS/index.css" rel="stylesheet">
+  <link href="./CSS/login.css" rel="stylesheet">
+  <link href="./CSS/report.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<header>
+  <div class="top-container">
+    <div class="logo-container">
+      <img src="./images/logo.png" alt="Logo">
+      <h1>PennyPal</h1>
+    </div>
+
+    <div class="nav-container">
+      <nav>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="dashboard.php">User Dashboard</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Register</a></li>
+        </ul>
+      </nav>
+    </div>
+</header>
+
+<div class="a-container">
+    <h2>Reports</h2>
+    <p>Look at your journey here!</p>
+    <img id="add" src="./images/report.webp" alt="Home 1">
 </div>
 
-<form method="post">
-    <button type="submit" name="logout">Logout</button>
-</form>
+<div class="table-container">
+    <table>
+      <!-- Table content as generated by PHP -->
+    </table>
+  </div>
 
+<div class="chart-container">
+  <canvas id="myChart"></canvas>
+</div>
+
+<div class="pie-chart-container">
+  <canvas id="myPieChart"></canvas>
+</div>
+
+<div class="line-chart-container">
+  <canvas id="myLineChart"></canvas>
 </div>
 
 
 
+<div class="add-container">
+    <div class="form-group">
+        <button class="addExpensesBtn"><a href="dashboard.php">User Dashboard</a></button>
+    </div>
 
+    <form method="post">
+        <button type="submit" name="logout">Logout</button>
+    </form>
+</div>
 
 <footer class="footer" id="sec-f268">
     <div class="footer-content">
@@ -203,9 +178,104 @@ echo "</tr>";
     </div>
 </footer>
 
-</div>
+
+<script>
+  var ctxPie = document.getElementById('myPieChart').getContext('2d');
+  var myPieChart = new Chart(ctxPie, {
+    type: 'pie',
+    data: {
+      labels: <?php echo json_encode(array_keys($totalAmountPerMonth)); ?>,
+      datasets: [{
+        label: 'Total Expenses Per Month',
+        data: <?php echo json_encode(array_values($totalAmountPerMonth)); ?>,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 159, 64, 0.6)',
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 159, 64, 0.6)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    }
+});
+</script>
+
+
+<script>
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: <?php echo json_encode(array_keys($totalAmountPerMonth)); ?>,
+      datasets: [{
+        label: 'Total Expenses Per Month',
+        data: <?php echo json_encode(array_values($totalAmountPerMonth)); ?>,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  var ctxLine = document.getElementById('myLineChart').getContext('2d');
+  var myLineChart = new Chart(ctxLine, {
+    type: 'line',
+    data: {
+      labels: <?php echo json_encode(array_keys($totalAmountPerMonth)); ?>,
+      datasets: [{
+        label: 'Total Expenses Per Month',
+        data: <?php echo json_encode(array_values($totalAmountPerMonth)); ?>,
+        fill: false,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        tension: 0.4
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+});
+</script>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="../script.js"></script>
 
+
 </body>
+
 </html>
