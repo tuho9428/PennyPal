@@ -51,34 +51,10 @@ $sqlBudget = "SELECT c.category_name, bs.budget_limit FROM budget_settings bs
 $resultBudget = $mysqli->query($sqlBudget);
 
 if ($resultBudget->num_rows > 0) {
-    while ($rowBudget = $resultBudget->fetch_assoc()) {
-        $userBudgetSettings[$rowBudget['category_name']] = $rowBudget['budget_limit'];
-    }
+  while ($rowBudget = $resultBudget->fetch_assoc()) {
+    $userBudgetSettings[$rowBudget['category_name']] = $rowBudget['budget_limit'];
+  }
 }
-
-// Assuming you have a database connection established with mysqli
-
-// Initialize an array to store total expenses per category
-$totalExpensesPerCategory = [];
-
-// Query to fetch total expenses for each category in the current month
-$sqlExpenses = "SELECT c.category_name, SUM(e.amount) AS total_expense
-                FROM expenses e
-                JOIN categories c ON e.category = c.category_name
-                WHERE e.user_id = '$user_id' AND MONTH(e.expense_date) = MONTH(CURRENT_DATE())
-                GROUP BY c.category_name";
-$resultExpenses = $mysqli->query($sqlExpenses);
-
-// Fetch total expenses per category and store them in the array
-while ($rowExpense = $resultExpenses->fetch_assoc()) {
-    $totalExpensesPerCategory[$rowExpense['category_name']] = $rowExpense['total_expense'];
-}
-
-// Display total expenses per category for the current month
-foreach ($totalExpensesPerCategory as $category => $totalExpense) {
-    echo "Category: " . $category . " - Total Expense: $" . $totalExpense . "<br>";
-}
-
 
 ?>
 
@@ -91,7 +67,7 @@ foreach ($totalExpensesPerCategory as $category => $totalExpense) {
   <link href="./CSS/index.css" rel="stylesheet">
   <link href="./CSS/login.css" rel="stylesheet">
   <script src="../script.js" defer></script>
-  
+
 </head>
 <header>
   <div class="top-container">
@@ -99,8 +75,6 @@ foreach ($totalExpensesPerCategory as $category => $totalExpense) {
       <img src="./images/logo.png" alt="Logo">
       <h1>PennyPal</h1>
     </div>
-
-  </div>
 
   <div class="nav-container">
     <nav>
@@ -119,18 +93,76 @@ foreach ($totalExpensesPerCategory as $category => $totalExpense) {
 
 <div class="a-container">
     <h2>Reports</h2>
-    <p>Look at your jounery here!</p>
+    <p>Look at your journey here!</p>
 
     <img id="add" src="./images/report.webp" alt="Home 1">
 
 </div>
 
+<div> 
 
-<div class="add-container">
+<div class="table-container">
 
-    
 
 </div>
+
+<div class="add-container">
+<?php
+
+// Assuming you have a database connection established with mysqli
+
+// Initialize an array to store total expenses per category for each month and total amount per month
+$totalExpensesPerCategoryPerMonth = [];
+$totalAmountPerMonth = [];
+
+// Query to fetch total expenses for each category per month
+$sqlExpensesPerMonth = "SELECT c.category_name, SUM(e.amount) AS total_expense, MONTH(e.expense_date) AS expense_month
+                        FROM expenses e
+                        JOIN categories c ON e.category = c.category_name
+                        WHERE e.user_id = '$user_id'
+                        GROUP BY c.category_name, MONTH(e.expense_date)";
+$resultExpensesPerMonth = $mysqli->query($sqlExpensesPerMonth);
+
+// Fetch total expenses per category for each month and store them in the array
+while ($rowExpenseMonth = $resultExpensesPerMonth->fetch_assoc()) {
+  $totalExpensesPerCategoryPerMonth[$rowExpenseMonth['category_name']][$rowExpenseMonth['expense_month']] = $rowExpenseMonth['total_expense'];
+  $totalAmountPerMonth[$rowExpenseMonth['expense_month']] = isset($totalAmountPerMonth[$rowExpenseMonth['expense_month']]) ? $totalAmountPerMonth[$rowExpenseMonth['expense_month']] + $rowExpenseMonth['total_expense'] : $rowExpenseMonth['total_expense'];
+}
+
+// Display total expenses per category for each month and total amount per month in a table format
+echo "<table border='1'>
+        <tr>
+          <th>Category</th>";
+// Generating table headers for months dynamically
+for ($month = 1; $month <= 12; $month++) {
+  echo "<th>Month " . $month . "</th>";
+}
+echo "<th>Total Amount</th></tr>";
+foreach ($totalExpensesPerCategoryPerMonth as $category => $expensesPerMonth) {
+  echo "<tr>
+            <td>" . $category . "</td>";
+  // Displaying expenses for each month under respective category and calculating total amount per month
+  $totalCategoryAmount = 0;
+  for ($month = 1; $month <= 12; $month++) {
+    $expenseForMonth = isset($expensesPerMonth[$month]) ? $expensesPerMonth[$month] : 0;
+    $totalCategoryAmount += $expenseForMonth;
+    echo "<td>$" . $expenseForMonth . "</td>";
+  }
+  echo "<td>$" . $totalCategoryAmount . "</td>";
+  echo "</tr>";
+}
+
+// Displaying total amount for each month even if there is no expense for that month
+echo "<tr>
+        <td>Total</td>";
+// Displaying total amount for each month or 0 if there is no expense for that month
+for ($month = 1; $month <= 12; $month++) {
+  $totalAmount = isset($totalAmountPerMonth[$month]) ? $totalAmountPerMonth[$month] : 0;
+  echo "<td>$" . $totalAmount . "</td>";
+}
+echo "</tr>";
+
+?>
 
 <div class="form-group">
     <button class="addExpensesBtn"  > <a href="dashboard.php">User Dashboard</a ></button>
@@ -139,6 +171,10 @@ foreach ($totalExpensesPerCategory as $category => $totalExpense) {
 <form method="post">
     <button type="submit" name="logout">Logout</button>
 </form>
+
+</div>
+
+
 
 
 
@@ -167,6 +203,7 @@ foreach ($totalExpensesPerCategory as $category => $totalExpense) {
     </div>
 </footer>
 
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="../script.js"></script>
 
