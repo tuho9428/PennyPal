@@ -88,7 +88,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
 
 <div class="table-container">
     <?php
-    // Place your PHP table rendering code here
+    $expenseDetails = isset($expenseDetails) ? $expenseDetails : [];
+    $totalMonthlyExpense = isset($totalMonthlyExpense) ? $totalMonthlyExpense : 0;
+    
     echo "<table border='1'>
             <tr>
               <th>Expense ID</th>
@@ -105,13 +107,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
             </tr>";
     }
     echo "<tr>
-            <td colspan='2'>Total Expense for Month $selectedMonth </td>
+            <td colspan='2'>Total Expense for Month " . (isset($selectedMonth) ? $selectedMonth : '') . "</td>
             <td colspan='2'>$" . $totalMonthlyExpense . "</td>
           </tr>";
 
     echo "</table>";
     ?>
 </div>
+
 
 <div class="add-container">
 <!-- year-and-month-selection -->
