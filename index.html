@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <title>PennyPal</title>
     <link href="./CSS/index.css" rel="stylesheet" />
-    <link href="./CSS/login.css" rel="stylesheet" />
-    <script src="script.js" defer></script>
+    <link href="./CSS/home.css" rel="stylesheet" />
   </head>
 
   <body>
@@ -34,23 +33,29 @@
     <!-- This is a comment -->
 
     <section>
+      
       <div class="container">
-        <!-- Apply Tooltip functionality to the h2 element -->
-        <h2 class="tooltip">
-          Home
-          <span class="tooltiptext"
-            >This is the Home section where you can find information about our
-            services.</span
-          >
-        </h2>
-        <p>Here is where we save!</p>
         <img
-          src="./images/home1.jpg"git
-          alt="Home 1"
-        />
+        id="disappearing-image"
+        src="./images/contact1.jpg"
+        style="width: 100%; height: 100%"
+        alt="Home 1"
+      />
+        <div id="slideshow-container">
+          <img
+            id="slideshow-img"
+            style="width: 100%; height: 100%; display: none;"
+            alt="Slideshow Image"
+          />
+        </div>
       </div>
     </section>
 
+    <!--  <div class="tooltip">
+        Hover over me for a tooltip
+        <span class="tooltip-text">This is a tooltip text</span>
+      </div> -->
+      <!-- Interactive Accordion -->
     <section>
       <div class="middle-container">
         <div>
@@ -59,6 +64,8 @@
             style="width: 100%; height: 50%"
             alt="home12"
           />
+          <div class="accordion-title">Budget Setting</div>
+          <div class="accordion-content">Set a Budget</div>
           <p>
             dsfhkj shdfkj ksfhsj fhsdfjk skdjfh skdjf h skjhs khjsf khskjf hk
             fjhskj fhjf hskjfh sjkfh dsfhkj shdfkj ksfhsj fhsdfjk skdjfh skdjf h
@@ -72,6 +79,8 @@
             style="width: 100%; height: 50%"
             alt="home13"
           />
+          <div class="accordion-title">Reports</div>
+          <div class="accordion-content">View a Report</div>
           <p>
             dsfhkj shdfkj ksfhsj fhsdfjk skdjfh skdjf h skjhs khjsf khskjf hk
             fjhskj fhjf hskjfh sjkfh dsfhkj shdfkj ksfhsj fhsdfjk skdjfh skdjf h
@@ -85,6 +94,8 @@
             style="width: 100%; height: 50%"
             alt="home14"
           />
+          <div class="accordion-title">Track Expenses</div>
+          <div class="accordion-content">Add Expenses</div>
           <p>
             dsfhkj shdfkj ksfhsj fhsdfjk skdjfh skdjf h skjhs khjsf khskjf hk
             fjhskj fhjf hskjfh sjkfh dsfhkj shdfkj ksfhsj fhsdfjk skdjfh skdjf h
@@ -93,19 +104,6 @@
         </div>
       </div>
 
-      <!--  <div class="tooltip">
-        Hover over me for a tooltip
-        <span class="tooltip-text">This is a tooltip text</span>
-      </div> -->
-      <!-- Interactive Accordion -->
-      <div class="accordion-title">Track Expenses</div>
-      <div class="accordion-content">Add Expenses</div>
-
-      <div class="accordion-title">Budget Setting</div>
-      <div class="accordion-content">Set a Budget</div>
-
-      <div class="accordion-title">Reports</div>
-      <div class="accordion-content">View a Report</div>
       <br /><br /><br />
 
 
@@ -144,5 +142,7 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="script.js"></script>
+
   </body>
 </html>

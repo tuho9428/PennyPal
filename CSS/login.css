@@ -1,47 +1,98 @@
-/* Style for the container */
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 15px;
+    margin-top: 5rem;
+    background-image: url('../images/360_F_292905667_yFUJNJPngYeRNlrRL4hApHWxuYyRY4kN.jpg'); /* Replace with the actual path to your image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-/* Style for the card */
+.row {
+    display: flex;
+}
+
+.login {
+    text-align: center;
+    color: #333;
+}
+
 .card {
-    margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin: 50px 600px; /* Adjust the vertical margin as needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Style for the form elements */
+.card:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Adjusted box shadow on hover for emphasis */
+}
+
+.card-body {
+    padding: 20px;
+}
+
 .form-group {
     margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
 }
 
 .form-control {
     width: 100%;
     padding: 10px;
-    font-size: 16px;
+    box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin-top: 5px;
 }
 
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
+.error-container {
+    margin-top: 15px;
+}
+
+.error-list {
+    list-style: none;
+    color: #e74c3c;
+    padding: 0;
+}
+
+.btn-dark {
+    background-color: #343a40;
+    color: white;
+    padding: 10px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-.btn-dark {
-    background-color: #333;
-}
-
 .btn-dark:hover {
-    background-color: #ef7272;
+    background-color: #1d2124;
 }
 
-h1.login {
-    background-color: #ccb7b7;
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
 }
+
+.container {
+    flex: 1;
+}
+
+/* Your existing styles for the container and other elements */
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
