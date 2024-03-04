@@ -6,6 +6,97 @@
     <link href="./CSS/index.css" rel="stylesheet" />
     <link href="./CSS/login.css" rel="stylesheet" />
     <script src="script.js" defer></script>
+    <style>
+      nav ul {
+        list-style: none;
+        padding: 0px;
+        margin: 0px;
+        display: flex;
+      }
+
+      nav li {
+        margin: 20px;
+      }
+
+      @media screen and (max-width: 700px) {
+        nav ul {
+          display: none;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        nav ul.open {
+          display: flex;
+        }
+      }
+
+      .burger-menu {
+        display: none;
+      }
+
+      @media screen and (max-width: 700px) {
+        .burger-menu {
+          display: block;
+          cursor: pointer;
+        }
+      }
+    </style>
+    <style>
+      .middle-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch; /* Ensures all blocks have the same height */
+      }
+
+      .middle-container div {
+        flex: 1; /* Distributes available space equally among the three blocks */
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+      }
+
+      .middle-container img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .middle-container p {
+        margin-top: 10px;
+      }
+      @media screen and (max-width: 700px) {
+        .middle-container {
+          flex-direction: column;
+        }
+
+        .middle-container div {
+          width: 100%; /* Make each block take up full width on smaller screens */
+        }
+      }
+    </style>
+    <style>
+      .accordion-container {
+    margin-top: 20px;
+}
+
+.accordion-title {
+    background-color: #f1f1f1;
+    color: #333;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+}
+
+.accordion-content {
+    display: none;
+    padding: 10px;
+}
+
+.active {
+    display: block;
+}
+
+    </style>
   </head>
 
   <body>
@@ -28,6 +119,7 @@
             <li><a href="register.html">Register</a></li>
           </ul>
         </nav>
+        <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
       </div>
     </header>
 
@@ -35,19 +127,7 @@
 
     <section>
       <div class="container">
-        <!-- Apply Tooltip functionality to the h2 element -->
-        <h2 class="tooltip">
-          Home
-          <span class="tooltiptext"
-            >This is the Home section where you can find information about our
-            services.</span
-          >
-        </h2>
-        <p>Here is where we save!</p>
-        <img
-          src="./images/home1.jpg"git
-          alt="Home 1"
-        />
+        <img src="./images/home11.jpg" alt="Home 1" />
       </div>
     </section>
 
@@ -92,7 +172,9 @@
           </p>
         </div>
       </div>
+    </section>
 
+    <section>
       <!--  <div class="tooltip">
         Hover over me for a tooltip
         <span class="tooltip-text">This is a tooltip text</span>
@@ -107,11 +189,7 @@
       <div class="accordion-title">Reports</div>
       <div class="accordion-content">View a Report</div>
       <br /><br /><br />
-
-
     </section>
-
-
 
     <footer class="footer" id="sec-f268">
       <div class="footer-content">
@@ -142,7 +220,20 @@
         </p>
       </div>
     </footer>
+    <script>
+      const burgerMenu = document.querySelector(".burger-menu");
+      const nav = document.querySelector("nav ul");
 
+      burgerMenu.addEventListener("click", () => {
+        nav.classList.toggle("open");
+      });
+
+      document.addEventListener("click", function (event) {
+        if (!event.target.closest(".nav-container")) {
+          nav.classList.remove("open");
+        }
+      });
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </body>
 </html>
