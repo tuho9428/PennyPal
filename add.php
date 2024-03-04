@@ -9,7 +9,7 @@ $user_id = $_SESSION['user_id'];
 // Check if the 'logged_in' session variable exists and is set to true
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     // User is logged in, display the expenses page content
-    echo "Welcome to the expenses page!";
+    //echo "Welcome to the expenses page!";
 } else {
     // User is not logged in, redirect them to the login page
     header("Location: login.html");
@@ -69,39 +69,126 @@ if ($resultBudget->num_rows > 0) {
   <link href="./CSS/index.css" rel="stylesheet">
   <link href="./CSS/login.css" rel="stylesheet">
   <script src="script.js" defer></script>
+  <script src="nav.js" defer></script>
+
+  <style>
+    .container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+img#add {
+    width: 100%;
+    height: auto;
+}
+
+.add-container {
+    margin-top: 20px;
+}
+
+#add-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+select,
+button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+select {
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.addExpensesBtn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.addExpensesBtn a {
+    color: white;
+    text-decoration: none;
+}
+
+#addExpenseBtn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+button[name="logout"] {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#addExpenseBtn:hover{
+    background-color: #dc3545;
+}
+
+    </style>
   
 </head>
+<body>
 <header>
-  <div class="top-container">
-    <div class="logo-container">
-      <img src="./images/logo.png" alt="Logo">
-      <h1>PennyPal</h1>
-    </div>
+      <div class="top-container">
+        <div class="logo-container">
+          <img src="./images/logo.png" alt="Logo" />
+          <h1>PennyPal</h1>
+        </div>
+      </div>
+  
+      <div class="nav-container">
+        <nav>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="dashboard.php">User Dashboard</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+          </ul>
+        </nav>
+        <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
+      </div>
+    </header>
 
-  </div>
 
-  <div class="nav-container">
-    <nav>
-      <ul>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="dashboard.php">User Dashboard</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="register.html">Register</a></li>
-      </ul>
-    </nav>
-  </div>
-
-</header>
-
-<div class="a-container">
-    <h2>Add Expenses</h2>
-    <p>Keep track of your money!</p>
-
+<div class="container">
     <img id="add" src="./images/add.jpg" alt="Home 1">
 
-</div>
 
 
 <div class="add-container">
@@ -125,30 +212,14 @@ if ($resultBudget->num_rows > 0) {
         <option value="" disabled selected>Select a category</option>
         <!-- Loop through categories and generate options -->
         <?php foreach ($categories as $categoryId => $categoryName): ?>
-            <option value="<?php echo $categoryName; ?>"><?php echo $categoryName; ?></option>
+                    <option value="<?php echo $categoryName; ?>"><?php echo $categoryName; ?></option>
         <?php endforeach; ?>
     </select>
 </div>
 
-<!-- Display budget limits for the user -->
-<div>
-    <h3>User Budget Settings:</h3>
-    <ul>
-        <?php foreach ($userBudgetSettings as $category => $budgetLimit): ?>
-            <li><?php echo $category . ": $" . $budgetLimit; ?></li>
-        <?php endforeach; ?>
-    </ul>
-</div>
-
-
-            <div class="form-group">
-                <button class="addExpensesBtn"  method="POST" action="update.php"> <a href="update.php">Add a New Category </a ></button>
-            </div>
-
-
             <div>
                 <label for="expenseDateInput">Date:</label>
-                <input type="date" id="dateInput" name="date" placeholder="Enter expense date" value="">
+                <input type="date" id="dateInput" name="date" placeholder="Enter expense date" value=""><br><br><br>
             </div>
 
             <div>
@@ -157,12 +228,26 @@ if ($resultBudget->num_rows > 0) {
         </form>
     </div>
 
-
-
-
 </div>
 
+</div>
+<div class="add-container">
+<!-- Display budget limits for the user -->
+<div>
+    <h3>Your Budget Settings:</h3>
+    <ul>
+        <?php foreach ($userBudgetSettings as $category => $budgetLimit): ?>
+                    <li><?php echo $category . ": $" . $budgetLimit; ?></li>
+        <?php endforeach; ?>
+    </ul>
+</div> <br><br>
 
+<div class="form-group">
+                <button class="addExpensesBtn"  method="POST" action="update.php"> <a href="update.php">Add a New Category? </a ></button>
+            </div>
+</div>
+
+<div class="add-container">
 <div class="form-group">
 <form method="get" action= "dashboard.php">
     <button class="addExpensesBtn" type="submit" name="userdashboard">User Dashboard</button>
@@ -172,8 +257,7 @@ if ($resultBudget->num_rows > 0) {
 <form method="post" action= "php/logout.php">
     <button type="submit" name="logout">Logout</button>
 </form>
-
-
+</div>
 
 <footer class="footer" id="sec-f268">
     <div class="footer-content">
