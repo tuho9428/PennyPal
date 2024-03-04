@@ -1,5 +1,4 @@
 <?php
-include 'php/header.php';
 include_once 'php/db_connection.php';
 
 // Start the session
@@ -8,10 +7,15 @@ session_start();
 // Access user_id from session variable
 $user_id = $_SESSION['user_id'];
 
+
+
 // Check if the 'logged_in' session variable exists and is set to true
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
   // User is logged in, display the expenses page content
   //echo "Welcome to the expenses page!";
+  $email= $_SESSION['email'];
+  // Now you can use $userEmail for further processing
+  //echo "Logged-in user email: " . $email;
 } else {
   // User is not logged in, redirect them to the login page
   header("Location: login.html");
@@ -68,8 +72,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
   }
 }
 
+
 ?>
-<style>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title> PennyPal</title>
+  <link href="./CSS/index.css" rel="stylesheet">
+  <link href="./CSS/login.css" rel="stylesheet">
+  <script src="../script.js" defer></script>
+  <style>
   /* Styling for buttons */
 button {
     background-color: #007bff;
@@ -109,6 +124,38 @@ button:hover {
 
 <link href="./CSS/report.css" rel="stylesheet">
 <script src="nav.js" defer></script>
+  
+</head>
+<header>
+      <div class="top-container">
+        <div class="logo-container">
+          <img src="./images/logo.png" alt="Logo" />
+          <h1>PennyPal</h1>
+        </div>
+      </div>
+
+      <div class="nav-container">
+        <nav>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="dashboard.php">User Dashboard</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li>
+            <?php
+    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+        echo '<span>Welcome, ' . $email . '</span>';
+    }
+    ?>
+            </li>
+          </ul>
+        </nav>
+        <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
+      </div>
+    </header>
+
 
 <div class="container">
     <img id="add" src="./images/user1.jpg" style="height: 300px" alt="Home 1">

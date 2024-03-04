@@ -20,6 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Valid login, fetch user_id and store it in session variable
     $row = mysqli_fetch_assoc($result);
     $_SESSION['user_id'] = $row['user_id'];
+    $_SESSION['email'] = $row['email'];
+
     
     // Valid login, redirect to expenses.php
     $_SESSION['logged_in'] = true;
