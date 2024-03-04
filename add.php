@@ -187,7 +187,7 @@ button[name="logout"] {
 
 
 <div class="container">
-    <img id="add" src="./images/add.jpg" alt="Home 1">
+    <img id="add" src="./images/add.jpg" style="height: 250px" alt="Home 1">
 
 
 

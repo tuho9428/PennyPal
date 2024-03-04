@@ -9,7 +9,7 @@ $user_id = $_SESSION['user_id'];
 // Check if the 'logged_in' session variable exists and is set to true
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
   // User is logged in, display the expenses page content
-  echo "Welcome to the expenses page!";
+  //echo "Welcome to the expenses page!";
 } else {
   // User is not logged in, redirect them to the login page
   header("Location: login.html");
@@ -66,17 +66,176 @@ if ($resultBudget->num_rows > 0) {
     <link href="./CSS/index.css" rel="stylesheet" />
     <link href="./CSS/login.css" rel="stylesheet" />
     <link href="./CSS/set.css" rel="stylesheet" />
-    <!-- <script src="set.js" defer></script> -->
+    <script src="nav.js" defer></script>
+    <style>
+.container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.add-container {
+  margin-top: 20px;
+}
+
+.budget-form {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-top: 10px;
+}
+
+#set {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.addExpensesBtn {
+  display: inline-block;
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li {
+  margin-top: 10px;
+}
+
+button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button a {
+  color: white;
+  text-decoration: none;
+}
+
+</style>
+
+<style>
+  body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .budget-form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select, input[type="number"], button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .form-group {
+            margin-top: 20px;
+        }
+
+        .addExpensesBtn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+
+        .logout-container {
+            margin-top: 20px;
+        }
+
+        button[name="logout"] {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+    </style>
+    <style>
+            button#set {
+          background-color: #007bff;
+          color: #fff;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+
+      button#set:hover {
+          background-color: #0056b3;
+      }
+  </style>
+
   </head>
   <body>
-    <header>
+  <header>
       <div class="top-container">
         <div class="logo-container">
           <img src="./images/logo.png" alt="Logo" />
           <h1>PennyPal</h1>
         </div>
       </div>
-
+  
       <div class="nav-container">
         <nav>
           <ul>
@@ -88,13 +247,11 @@ if ($resultBudget->num_rows > 0) {
             <li><a href="register.html">Register</a></li>
           </ul>
         </nav>
+        <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
       </div>
     </header>
 
-    <div class="a-container">
-      <h2>Set Budget</h2>
-      <p>Set your goal here!</p>
-
+    <div class="container">
       <img id="add" src="./images/set.png" alt="Home 1" />
     </div>
 
@@ -110,9 +267,7 @@ if ($resultBudget->num_rows > 0) {
           <?php endforeach; ?>
         </select>
 
-        <div class="form-group">
-                <button class="addExpensesBtn"  method="POST" action="update.php"> <a href="update.php">Need to Add a New Category?</a ></button>
-            </div>
+
 
         <label for="timeframe">Select Timeframe:</label>
         <select id="timeframe" name="timeframe">
@@ -129,28 +284,39 @@ if ($resultBudget->num_rows > 0) {
           placeholder="Enter budget amount"
         />
         <!--<button onclick="saveBudget()">Save Budget</button> -->
-        <button type="submit" id="set">Set</button>
+        <button  type="submit" id="set">Set</button>
+
+        </form>
+          <div class="form-group">
+                <button class="addExpensesBtn"  method="POST" action="update.php"> <a href="update.php">Need to Add a New Category?</a ></button>
+            </div>
       </div>
-          </form>
+
     </div>
 
+
+    <div class="add-container">
     <!-- Display user's budget settings -->
-<h3>User Budget Settings:</h3>
-<ul>
-    <?php foreach ($userBudgetSettings as $category => $budgetLimit): ?>
-        <li><?php echo $category . ": $" . $budgetLimit; ?></li>
-    <?php endforeach; ?>
-</ul>
+    <h3>Your Budget Settings</h3>
+    <ul>
+        <?php foreach ($userBudgetSettings as $category => $budgetLimit): ?>
+          <li><?php echo $category . ": $" . $budgetLimit; ?></li>
+        <?php endforeach; ?>
+    </ul>
 
     <div class="form-group">
       <button class="addExpensesBtn">
         <a href="dashboard.php">User Dashboard</a>
       </button>
     </div>
+    </div>
 
+    <div class="add-container">
     <form method="post">
       <button type="submit" name="logout">Logout</button>
     </form>
+    </div>
+    
 
     <footer class="footer" id="sec-f268">
       <div class="footer-content">
