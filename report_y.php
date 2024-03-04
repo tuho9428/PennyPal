@@ -61,41 +61,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year'])) {
         $totalExpensesPerCategoryPerMonth[$rowExpenseMonth['category_name']][$rowExpenseMonth['expense_month']] = $rowExpenseMonth['total_expense'];
         $totalAmountPerMonth[$rowExpenseMonth['expense_month']] = isset($totalAmountPerMonth[$rowExpenseMonth['expense_month']]) ? $totalAmountPerMonth[$rowExpenseMonth['expense_month']] + $rowExpenseMonth['total_expense'] : $rowExpenseMonth['total_expense'];
       }
-
-      echo "<table border='1'>
-      <tr>
-        <th>Category</th>";
-for ($month = 1; $month <= 12; $month++) {
-  echo "<th>Month " . $month . "</th>";
-}
-echo "<th>Total Amount</th></tr>";
-foreach ($totalExpensesPerCategoryPerMonth as $category => $expensesPerMonth) {
-  echo "<tr>
-          <td>" . $category . "</td>";
-  $totalCategoryAmount = 0;
-  for ($month = 1; $month <= 12; $month++) {
-    $expenseForMonth = isset($expensesPerMonth[$month]) ? $expensesPerMonth[$month] : 0;
-    $totalCategoryAmount += $expenseForMonth;
-    echo "<td>$" . $expenseForMonth . "</td>";
   }
-  echo "<td>$" . $totalCategoryAmount . "</td>";
-  echo "</tr>";
-}
-
-echo "<tr>
-      <td>Total</td>";
-for ($month = 1; $month <= 12; $month++) {
-  $totalAmount = isset($totalAmountPerMonth[$month]) ? $totalAmountPerMonth[$month] : 0;
-  echo "<td>$" . $totalAmount . "</td>";
-}
-echo "</tr>";
-    }
-  }
-
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -107,71 +76,224 @@ echo "</tr>";
   <link href="./CSS/login.css" rel="stylesheet">
   <link href="./CSS/report.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="nav.js" defer></script>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        img {
+            height: 100px;
+            width: 100%;
+        }
+
+        .year-selection {
+            margin-top: 20px;
+        }
+
+        label, select, button {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto; /* Add horizontal scroll for small screens */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            display: flex; /* Use flexbox for responsive layout */
+            flex-wrap: wrap; /* Allow charts to wrap to the next line */
+            justify-content: space-around; /* Spread items evenly */
+        }
+
+
+        .bar-chart-container {
+            width: calc(100% - 10px); /* Bar chart takes full width on the first line */
+        }
+
+        .pie-chart-container,
+        .line-chart-container {
+            width: calc(50% - 10px); /* Pie and Line charts take half width on the second line */
+        }
+
+        canvas {
+            width: 100%; /* Make canvas responsive */
+            height: auto; /* Allow canvas to adjust its height proportionally */
+        }
+
+        .addExpensesBtn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button[name="logout"] {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+  
 </head>
 <header>
-  <div class="top-container">
-    <div class="logo-container">
-      <img src="./images/logo.png" alt="Logo">
-      <h1>PennyPal</h1>
-    </div>
+      <div class="top-container">
+        <div class="logo-container">
+          <img src="./images/logo.png" alt="Logo" />
+          <h1>PennyPal</h1>
+        </div>
+      </div>
+  
+      <div class="nav-container">
+        <nav>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="dashboard.php">User Dashboard</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+          </ul>
+        </nav>
+        <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
+      </div>
+    </header>
 
-    <div class="nav-container">
-      <nav>
-        <ul>
-          <li><a href="home.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="dashboard.php">User Dashboard</a></li>
-          <li><a href="login.html">Login</a></li>
-          <li><a href="register.html">Register</a></li>
-        </ul>
-      </nav>
-    </div>
-</header>
-
-<div class="a-container">
-    <h2>Reports</h2>
-    <p>Look at your journey here!</p>
-    <img id="add" src="./images/report.webp" alt="Home 1">
+<div class="container">
+    <img style="height: 100px; width: 100%;" src="./images/report.webp" alt="Home 1">
 </div>
 
 <!-- year-selection -->
-<div class="year-selection">
-    <form method="get">
-        <label for="selected_year">Select Year:</label>
-        <select name="selected_year" id="selected_year">
-            <?php
-            $currentYear = date("Y");
-            $nextYear = date("Y") + 1;
-            for ($year = $currentYear; $year >= 2020; $year--) {
-                echo "<option value='$year'>$year</option>";
-            }
-            ?>
-        </select>
+<div class="add-container">
 
-        <button type="submit" name="show_yearly_reports">Show Yearly Reports</button>
-    </form>
+  <div class="year-selection">
+      <form method="get">
+          <label for="selected_year">Select Year:</label>
+          <select name="selected_year" id="selected_year">
+              <?php
+              $currentYear = date("Y");
+              $nextYear = date("Y") + 1;
+              for ($year = $currentYear; $year >= 2020; $year--) {
+                  echo "<option value='$year'>$year</option>";
+              }
+              ?>
+          </select>
+
+          <button type="submit" name="show_yearly_reports">Show Yearly Reports</button>
+      </form>
+  </div>
+
 </div>
 
 <div class="table-container">
+  <!-- Table content as generated by PHP -->
     <table>
-      <!-- Table content as generated by PHP -->
+    <?php
+      
+      echo "<table border='1'>
+      <tr>
+        <th>Category</th>";
+        for ($month = 1; $month <= 12; $month++) {
+          echo "<th>Month " . $month . "</th>";
+        }
+        echo "<th>Total Amount</th></tr>";
+        foreach ($totalExpensesPerCategoryPerMonth as $category => $expensesPerMonth) {
+          echo "<tr>
+                  <td>" . $category . "</td>";
+          $totalCategoryAmount = 0;
+          for ($month = 1; $month <= 12; $month++) {
+            $expenseForMonth = isset($expensesPerMonth[$month]) ? $expensesPerMonth[$month] : 0;
+            $totalCategoryAmount += $expenseForMonth;
+            echo "<td>$" . $expenseForMonth . "</td>";
+          }
+          echo "<td>$" . $totalCategoryAmount . "</td>";
+          echo "</tr>";
+        }
+
+        echo "<tr>
+              <td>Total</td>";
+        for ($month = 1; $month <= 12; $month++) {
+          $totalAmount = isset($totalAmountPerMonth[$month]) ? $totalAmountPerMonth[$month] : 0;
+          echo "<td>$" . $totalAmount . "</td>";
+        }
+        echo "</tr>";
+    }
+    ?>
     </table>
-  </div>
+</div>
+
+
+<div class="add-container">
 
 <div class="chart-container">
-  <canvas id="myChart"></canvas>
+<div class="bar-chart-container">
+    <canvas id="myChart"></canvas>
+
 </div>
+  <div class="pie-chart-container">
+    <canvas id="myPieChart"></canvas>
+  </div>
 
-<div class="pie-chart-container">
-  <canvas id="myPieChart"></canvas>
+  <div class="line-chart-container">
+    <canvas id="myLineChart"></canvas>
+  </div>
 </div>
-
-<div class="line-chart-container">
-  <canvas id="myLineChart"></canvas>
 </div>
-
-
 
 <div class="add-container">
     <div class="form-group">

@@ -59,6 +59,91 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
   <link href="./CSS/report.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .year-and-month-selection {
+            margin-top: 20px;
+        }
+
+        label, select, button {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .addExpensesBtn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button[name="logout"] {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
 <header>
   <div class="top-container">
     <div class="logo-container">
@@ -79,11 +164,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
       </nav>
     </div>
 </header>
-
-<div class="a-container">
-    <h2>Reports</h2>
-    <p>Look at your journey here!</p>
-    <img id="add" src="./images/report.webp" alt="Home 1">
+<div class="container">
+    <img style="height: 100px; width: 100%;" src="./images/report.webp" alt="Home 1">
 </div>
 
 <div class="table-container">
