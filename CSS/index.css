@@ -314,3 +314,52 @@ nav li {
     cursor: pointer;
   }
 }
+
+
+/* middle-container */
+.middle-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch; /* Ensures all blocks have the same height */
+}
+
+.middle-container div {
+  flex: 1; /* Distributes available space equally among the three blocks */
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.middle-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.middle-container p {
+  margin-top: 10px;
+}
+@media screen and (max-width: 700px) {
+  .middle-container {
+    flex-direction: column;
+  }
+
+  .middle-container div {
+    width: 100%; 
+  }
+}
+
+
+/* container */
+.container {
+  text-align: center; /* Center the content horizontally */
+  margin-top: 20px; /* Add some top margin */
+}
+
+.container img {
+  max-width: 100%; /* Ensure the image fills its container */
+  height: auto; /* Maintain aspect ratio */
+  border: 1px solid #ccc; /* Add a border around the image */
+  border-radius: 5px; /* Optional: Add border radius for a rounded look */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}
