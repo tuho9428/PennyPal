@@ -278,3 +278,39 @@ li {
   max-width: 80%;
   max-height: 80%;
 }
+
+
+/* nav CSS for additional features */
+nav ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+}
+
+nav li {
+  margin: 20px;
+}
+
+@media (max-width: 830px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav ul.open {
+    display: flex;
+  }
+}
+
+.burger-menu {
+  display: none;
+}
+
+@media (max-width: 830px) {
+  .burger-menu {
+    display: block;
+    cursor: pointer;
+  }
+}
