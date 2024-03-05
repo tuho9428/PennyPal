@@ -83,7 +83,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
   <title> PennyPal</title>
   <link href="./CSS/index.css" rel="stylesheet">
   <link href="./CSS/login.css" rel="stylesheet">
-  <script src="../script.js" defer></script>
+  <link href="./CSS/report.css" rel="stylesheet">
+  <script src="js/nav.js" defer></script>
+  <script src="js/script.js" defer></script>
+
   <style>
   /* Styling for buttons */
 button {
@@ -122,9 +125,6 @@ button:hover {
 
   </style>
 
-<link href="./CSS/report.css" rel="stylesheet">
-<script src="nav.js" defer></script>
-  
 </head>
 <header>
       <div class="top-container">

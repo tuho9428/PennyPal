@@ -69,8 +69,8 @@ if ($resultBudget->num_rows > 0) {
   <title> PennyPal</title>
   <link href="./CSS/index.css" rel="stylesheet">
   <link href="./CSS/login.css" rel="stylesheet">
-  <script src="script.js" defer></script>
-  <script src="nav.js" defer></script>
+  <script src="js/script.js" defer></script>
+  <script src="js/nav.js" defer></script>
 
   <style>
     .container {
@@ -251,7 +251,7 @@ button[name="logout"] {
 </div> <br><br>
 
 <div class="form-group">
-                <button class="addExpensesBtn"  method="POST" action="update.php"> <a href="update.php">Add a New Category? </a ></button>
+                <button class="addExpensesBtn"  method="POST" action="php/update.php"> <a href="php/update.php">Add a New Category? </a ></button>
             </div>
 </div>
 
@@ -292,12 +292,7 @@ button[name="logout"] {
     </div>
 </footer>
 
-<script src="script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="script.js"></script>
-<script>
-
-</script>
 
 </body>
 </html>
