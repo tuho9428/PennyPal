@@ -31,6 +31,33 @@ if (isset($_POST['logout'])) {
     exit();
 }
 
+// Database credentials
+$hostname = "localhost"; // or your database host
+$dbname = "mydata";
+$username = "root";
+$password = "";
+
+// Attempt to establish a connection using mysqli
+$mysqli = new mysqli($hostname, $username, $password, $dbname);
+
+// Check connection
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
+}
+
+// Fetch budget settings for the user from the database
+$userBudgetSettings = [];
+$sqlBudget = "SELECT c.category_name, bs.budget_limit FROM budget_settings bs
+              JOIN categories c ON bs.category_id = c.category_id
+              WHERE bs.user_id = '$user_id'";
+$resultBudget = $mysqli->query($sqlBudget);
+
+if ($resultBudget->num_rows > 0) {
+    while ($rowBudget = $resultBudget->fetch_assoc()) {
+        $userBudgetSettings[$rowBudget['category_name']] = $rowBudget['budget_limit'];
+    }
+}
+
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve user input from form
@@ -43,6 +70,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check if amount is not null
     if (!empty($expenseAmount)) {
+
+        // Fetch budget limit for the specific timeframe (monthly, yearly, etc.)
+        $timeframe = $_POST['timeframe'] ?? 'yearly';
+        $budgetLimit = getBudgetLimitForTimeframe($conn, $user_id, $category, $timeframe);
+
+
         // Prepare and bind SQL statement
         $stmt = $conn->prepare("INSERT INTO expenses (user_id, amount, category, description, expense_date) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("idsss", $user_id, $expenseAmount, $category, $expenseName, $date);
@@ -52,6 +85,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Execute the statement
         if ($stmt->execute()) {
             echo "Expense saved successfully.";
+
+            // Check if the expense exceeds the budget limit for the category in the specific timeframe
+            if ($budgetLimit !== null && $expenseAmount > $budgetLimit) {
+                echo "Warning: Expense exceeds budget limit for category - " . $category . " in " . $timeframe;
+            }
+
+            // Subtract the expense amount from budget limit if budget limit exists
+            if ($budgetLimit !== null) {
+                $newBudgetLimit = $budgetLimit - $expenseAmount;
+                updateBudgetLimitForTimeframe($conn, $user_id, $category, $timeframe, $newBudgetLimit);
+            }
+
 
             // Example:
             // Retrieve the inserted expense_id
@@ -131,6 +176,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+// Function to fetch budget limit for a specific timeframe (e.g., monthly or yearly)
+function getBudgetLimitForTimeframe($conn, $user_id, $category, $timeframe) {
+    $budgetLimit = null;
+    $sql = "SELECT budget_limit FROM budget_settings WHERE user_id = ? AND category_id = 
+            (SELECT category_id FROM categories WHERE category_name = ?) AND timeframe = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iss", $user_id, $category, $timeframe);
+    $stmt->execute();
+    $stmt->bind_result($budgetLimit);
+    
+    if ($stmt->fetch()) {
+        return $budgetLimit;
+    } else {
+        return null;
+    }
+}
+
+function updateBudgetLimitForTimeframe($conn, $user_id, $category, $timeframe, $newBudgetLimit) {
+    // Update the budget limit in the database for the specific user, category, and timeframe
+    $sql = "UPDATE budget_settings SET budget_limit = ? WHERE user_id = ? AND category_id = 
+            (SELECT category_id FROM categories WHERE category_name = ?) AND timeframe = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("diss", $newBudgetLimit, $user_id, $category, $timeframe);
+    $stmt->execute();
+}
 // Close the connection
 $conn->close();
 ?>

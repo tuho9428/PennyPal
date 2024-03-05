@@ -31,118 +31,93 @@ if (isset($_POST['logout'])) {
     exit();
 }
 
-// Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve user input from form
-    $expenseName = $_POST['expenseName'] ?? '';
-    $expenseAmount = $_POST['expenseAmount'] ?? '';
-    $category = $_POST['category'] ?? '';
-    $date = $_POST['date'] ?? '';
+$hostname = "localhost";
+$dbname = "mydata";
+$username = "root";
+$password = "";
 
-    // Validate input (you can add more validation here)
+$mysqli = new mysqli($hostname, $username, $password, $dbname);
 
-    // Check if amount is not null
-    if (!empty($expenseAmount)) {
-        // Prepare and bind SQL statement
-        $stmt = $conn->prepare("INSERT INTO expenses (user_id, amount, category, description, expense_date) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("idsss", $user_id, $expenseAmount, $category, $expenseName, $date);
-
-
-
-        // Execute the statement
-        if ($stmt->execute()) {
-            echo "Expense saved successfully.";
-
-            // Example:
-            // Retrieve the inserted expense_id
-            $expense_id = $stmt->insert_id;
-
-            // Get the year and month from the submitted expense data
-            $year = date('Y', strtotime($date));
-            $month = date('n', strtotime($date));
-
-            // Check if the year exists in the expense_years table
-            $stmt_year = $conn->prepare("SELECT year_id FROM expense_years WHERE user_id = ? AND year = ?");
-            $stmt_year->bind_param("ii", $user_id, $year);
-            $stmt_year->execute();
-            $stmt_year->store_result();
-
-            if ($stmt_year->num_rows == 0) {
-                // Insert the year into the expense_years table if it does not exist
-                $stmt_insert_year = $conn->prepare("INSERT INTO expense_years (user_id, year) VALUES (?, ?)");
-                $stmt_insert_year->bind_param("ii", $user_id, $year);
-                $stmt_insert_year->execute();
-                $stmt_insert_year->close();
-            }
-
-            // Retrieve the year_id from the inserted or existing record in the expense_years table
-            $stmt_year->bind_result($year_id);
-            $stmt_year->fetch();
-            $stmt_year->close();
-
-            // Check if the month exists in the expense_months table
-            $stmt_month = $conn->prepare("SELECT month_id FROM expense_months WHERE year_id = ? AND month = ?");
-            $stmt_month->bind_param("ii", $year_id, $month);
-            $stmt_month->execute();
-            $stmt_month->store_result();
-
-            // Retrieve the year_id from the expense_years table
-            $stmt_year_id = $conn->prepare("SELECT year_id FROM expense_years WHERE user_id = ? AND year = ?");
-            $stmt_year_id->bind_param("ii", $user_id, $year);
-            $stmt_year_id->execute();
-            $stmt_year_id->bind_result($year_id);
-            $stmt_year_id->fetch();
-            $stmt_year_id->close();
-
-            if ($stmt_month->num_rows == 0) {
-                // Insert the month into the expense_months table if it does not exist
-                $stmt_insert_month = $conn->prepare("INSERT INTO expense_months (year_id, month) VALUES (?, ?)");
-                $stmt_insert_month->bind_param("ii", $year_id, $month);
-                $stmt_insert_month->execute();
-                $stmt_insert_month->close();
-            }
-
-            // Retrieve the month_id from the inserted or existing record in the expense_months table
-            // Prepare and execute a SELECT query to retrieve the month_id
-            $stmt_select_month_id = $conn->prepare("SELECT month_id FROM expense_months WHERE year_id = ? AND month = ?");
-            $stmt_select_month_id->bind_param("ii", $year_id, $month);
-            $stmt_select_month_id->execute();
-            $stmt_select_month_id->bind_result($month_id); // Bind a variable to store the result
-            $stmt_select_month_id->fetch(); // Fetch the result
-            $stmt_select_month_id->close(); // Close the statement
-
-            // Now, $month_id contains the month_id for the given year_id and month
-
-
-            // Insert the expense_month_details record
-            $stmt_expense_month_details = $conn->prepare("INSERT INTO expense_month_details (month_id, expense_id) VALUES (?, ?)");
-            $stmt_expense_month_details->bind_param("ii", $month_id, $expense_id);
-            $stmt_expense_month_details->execute();
-            $stmt_expense_month_details->close();
-
-        } else {
-            echo "Error: " . $conn->error;
-        }
-
-        // Close the statement
-        $stmt->close();
-    } else {
-        echo "Amount cannot be empty.";
-    }
+if ($mysqli->connect_error) {
+  die("Connection failed: " . $mysqli->connect_error);
 }
 
-// Close the connection
-$conn->close();
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isset($_GET['selected_month'])) {
+  $selectedYear = $_GET['selected_year'];
+  $selectedMonth = $_GET['selected_month'];
+
+  $selectedDate = $selectedYear . '-' . str_pad($selectedMonth, 2, '0', STR_PAD_LEFT);
+
+  $expenseDetails = [];
+  $sqlExpenseDetails = "SELECT e.expense_id, e.category, e.amount, e.expense_date
+                        FROM expenses e
+                        JOIN categories c ON c.category_name = e.category
+                        WHERE e.user_id = '$user_id' AND DATE_FORMAT(e.expense_date, '%Y-%m') = '$selectedDate'";
+  $resultExpenseDetails = $mysqli->query($sqlExpenseDetails);
+
+  if ($resultExpenseDetails === false) {
+    echo "Error: " . $mysqli->error;
+  } else {
+    $totalMonthlyExpense = 0;
+    if ($resultExpenseDetails->num_rows > 0) {
+      while ($rowExpenseDetail = $resultExpenseDetails->fetch_assoc()) {
+        $expenseDetails[] = $rowExpenseDetail;
+        $totalMonthlyExpense += $rowExpenseDetail['amount'];
+      }
+    }
+  }
+}
+
 ?>
 
-
-
+<link href="./CSS/report.css" rel="stylesheet">
 
 <div class="a-container">
     <h2>User Dashboard</h2>
     <p>Explore more here!</p>
 
-    <img id="add" src="./images/user.jpg" alt="Home 1">
+    <img id="add" src="./images/user.jpg" style="height: 200px" alt="Home 1">
+
+</div>
+
+<div class="add-container">
+
+    <div class="table-container">
+    <?php
+    // Assuming you have already connected to the database and stored the user ID in $user_id
+
+    // Query to fetch recent transactions for the logged-in user
+    $sqlRecentTransactions = "SELECT expense_id, category, amount, expense_date 
+                            FROM expenses 
+                            WHERE user_id = '$user_id' 
+                            ORDER BY expense_date DESC 
+                            LIMIT 10"; // Retrieve the latest 10 transactions
+
+    $resultRecentTransactions = $mysqli->query($sqlRecentTransactions);
+
+    if ($resultRecentTransactions === false) {
+        echo "Error: " . $mysqli->error;
+    } else {
+        echo "<h3>Recent Transactions</h3>";
+        echo "<table border='1'>
+                <tr>
+                <th>Expense ID</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Expense Date</th>
+                </tr>";
+        while ($row = $resultRecentTransactions->fetch_assoc()) {
+            echo "<tr>
+                    <td>" . $row['expense_id'] . "</td>
+                    <td>" . $row['category'] . "</td>
+                    <td>$" . $row['amount'] . "</td>
+                    <td>" . $row['expense_date'] . "</td>
+                </tr>";
+        }
+        echo "</table>";
+    }
+    ?>
+    </div>
 
 </div>
 
@@ -168,7 +143,7 @@ $conn->close();
             </div>
             <div class="form-group">
         
-                <button class="addExpensesBtn"  > <a href="report.html">Reports</a ></button>
+                <button class="addExpensesBtn"  > <a href="report.php">Reports</a ></button>
 
             </div>
             <div class="form-group">

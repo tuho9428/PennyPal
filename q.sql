@@ -69,11 +69,16 @@ INSERT INTO categories (category_name) VALUES
 ('Gifts and donations'),
 ('Miscellaneous');
 
-CREATE TABLE budgets (
+CREATE TABLE budget_settings (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    budget DECIMAL(10, 2) NOT NULL,
-    category VARCHAR(50) NOT NULL,
-    timeframe VARCHAR(10) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    user_id INT,
+    category_id INT,
+    budget_limit DECIMAL(10, 2),
+    timeframe VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),  -- Assuming you have a 'users' table
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)  -- Assuming you have a 'categories' table
 );
+
 

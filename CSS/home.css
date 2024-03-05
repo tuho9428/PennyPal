@@ -1,4 +1,130 @@
-.middle-container {
+/* CSS for PennyPal webpage */
+
+/* Header styles */
+header {
+    background-color: #f0f0f0;
+    padding: 10px 0;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-container img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .nav-container {
+    background-color: #333;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  nav ul li {
+    display: inline;
+    margin-right: 10px;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: white;
+  }
+  
+  /* Tooltip styles */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+  
+  /* Middle container styles */
+  .middle-container {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .middle-container img {
+    object-fit: cover;
+  }
+  
+  /* Accordion styles */
+  .accordion-title {
+    background-color: #f1f1f1;
+    color: #333;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  .accordion-content {
+    display: none;
+  }
+  
+  .accordion-content.active {
+    display: block;
+  }
+  
+  /* Footer styles */
+  .footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+  }
+  
+  .footer-content {
+    display: flex;
+  }
+  
+  .footer-info,
+  .footer-links,
+  .footer-contact {
+    flex: 1;
+  }
+  
+  .footer-info h3,
+  .footer-links h3,
+  .footer-contact h3 {
+    margin-bottom: 10px;
+  }
+  
+  /* Responsive styles */
+  @media screen and (max-width: 600px) {
+    .logo-container img {
+      width: 40px;
+      height: 40px;
+      margin-right: 5px;
+    }
+  
+    .nav-container nav ul li {
+      margin-right: 5px;
+      font-size: smaller;
+      letter-spacing: 0.5px;
+      line-height: normal;
+      padding: 5px;
+    }
+  }
+  .middle-container {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;

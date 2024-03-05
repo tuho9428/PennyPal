@@ -42,6 +42,20 @@ $result = $mysqli->query($sql);
 while ($row = $result->fetch_assoc()) {
     $categories[$row['category_id']] = $row['category_name'];
 }
+
+// Fetch budget settings for the user from the database
+$userBudgetSettings = [];
+$sqlBudget = "SELECT c.category_name, bs.budget_limit FROM budget_settings bs
+              JOIN categories c ON bs.category_id = c.category_id
+              WHERE bs.user_id = '$user_id'";
+$resultBudget = $mysqli->query($sqlBudget);
+
+if ($resultBudget->num_rows > 0) {
+    while ($rowBudget = $resultBudget->fetch_assoc()) {
+        $userBudgetSettings[$rowBudget['category_name']] = $rowBudget['budget_limit'];
+    }
+}
+
 ?>
 
 
@@ -114,6 +128,16 @@ while ($row = $result->fetch_assoc()) {
             <option value="<?php echo $categoryName; ?>"><?php echo $categoryName; ?></option>
         <?php endforeach; ?>
     </select>
+</div>
+
+<!-- Display budget limits for the user -->
+<div>
+    <h3>User Budget Settings:</h3>
+    <ul>
+        <?php foreach ($userBudgetSettings as $category => $budgetLimit): ?>
+            <li><?php echo $category . ": $" . $budgetLimit; ?></li>
+        <?php endforeach; ?>
+    </ul>
 </div>
 
 
