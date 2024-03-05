@@ -1,3 +1,29 @@
+<?php
+include_once 'php/db_connection.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Prepare the SQL statement
+    $sql = "INSERT INTO users (email, password) VALUES ('$username', '$password')";
+
+    // Execute the SQL statement
+    if (mysqli_query($conn, $sql)) {
+      $_SESSION['message'] = "Registration successful. Please Try to log in";
+
+  } else {
+    $_SESSION['message'] = "Error: " . $username . "already exists <br> Try to Log in";
+  }
+  
+}
+
+
+
+$conn->close(); // Close the database connection
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,8 +51,8 @@
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="dashboard.php">User Dashboard</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="register.html">Register</a></li>
+        <li><a href="login.php">Login</a></li>
+        <li><a href="register.php">Register</a></li>
       </ul>
     </nav>
     <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
@@ -41,8 +67,16 @@
       <div class="card">
         <div class="card-body">
 
+                <!-- Display messages here -->
+                <?php
+        if (isset($_SESSION['message'])) {
+            echo '<div class="message">' . $_SESSION['message'] . '</div>';
+            unset($_SESSION['message']); // Clear the message after displaying
+        }
+        ?><br>
+
           <!-- Makes POST request to /register route -->
-          <form action="php/register.php" method="POST" id="registerForm">
+          <form method="POST" id="registerForm">
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" class="form-control" name="username" id="email">
@@ -54,7 +88,11 @@
               <span class="error-msg" id="passwordError"></span>
             </div>
             <button type="submit" class="btn btn-dark">Register</button>
-          </form>
+          </form><br>
+
+          <div class="form-group" onclick="location.href='login.php';" style="cursor: pointer;">
+            <button class="addExpensesBtn">Login Here</button>
+        </div>
 
         </div>
       </div>

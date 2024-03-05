@@ -18,7 +18,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
   //echo "Logged-in user email: " . $email;
 } else {
   // User is not logged in, redirect them to the login page
-  header("Location: login.html");
+  header("Location: login.php");
   exit();
 }
 
@@ -31,7 +31,7 @@ if (isset($_POST['logout'])) {
   session_destroy();
 
   // Redirect to login page after logout
-  header("Location: login.html");
+  header("Location: login.php");
   exit();
 }
 
@@ -141,8 +141,8 @@ button:hover {
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="dashboard.php">User Dashboard</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="register.html">Register</a></li>
+            <li><a href="login.php">Login</a></li>
+            <li><a href="register.php">Register</a></li>
             <li>
             <?php
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
@@ -166,39 +166,44 @@ button:hover {
 
     <div class="table-container">
     <?php
-    // Assuming you have already connected to the database and stored the user ID in $user_id
-    
-    // Query to fetch recent transactions for the logged-in user
-    $sqlRecentTransactions = "SELECT expense_id, category, amount, expense_date 
-                            FROM expenses 
-                            WHERE user_id = '$user_id' 
-                            ORDER BY expense_date DESC 
-                            LIMIT 10"; // Retrieve the latest 10 transactions
-    
-    $resultRecentTransactions = $mysqli->query($sqlRecentTransactions);
+// Assuming you have already connected to the database and stored the user ID in $user_id
 
-    if ($resultRecentTransactions === false) {
-      echo "Error: " . $mysqli->error;
-    } else {
-      echo "<h3>Recent Transactions</h3>";
-      echo "<table border='1'>
+// Query to fetch recent transactions for the logged-in user
+$sqlRecentTransactions = "SELECT expense_id, category, amount, expense_date 
+                        FROM expenses 
+                        WHERE user_id = '$user_id' 
+                        ORDER BY expense_date DESC 
+                        LIMIT 10"; // Retrieve the latest 10 transactions
+
+$resultRecentTransactions = $mysqli->query($sqlRecentTransactions);
+
+if ($resultRecentTransactions === false) {
+    echo "Error: " . $mysqli->error;
+} else {
+    if ($resultRecentTransactions->num_rows > 0) {
+        echo "<h3>Recent Transactions</h3>";
+        echo "<table border='1'>
                 <tr>
                 <th>Expense ID</th>
                 <th>Category</th>
                 <th>Amount</th>
                 <th>Expense Date</th>
                 </tr>";
-      while ($row = $resultRecentTransactions->fetch_assoc()) {
-        echo "<tr>
+        while ($row = $resultRecentTransactions->fetch_assoc()) {
+            echo "<tr>
                     <td>" . $row['expense_id'] . "</td>
                     <td>" . $row['category'] . "</td>
                     <td>$" . $row['amount'] . "</td>
                     <td>" . $row['expense_date'] . "</td>
                 </tr>";
-      }
-      echo "</table>";
+        }
+        echo "</table>";
+    } else {
+        echo "No recent transactions found.";
     }
-    ?>
+}
+?>
+
     </div>
 
 </div>

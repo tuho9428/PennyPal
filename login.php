@@ -1,3 +1,42 @@
+<?php
+
+include_once 'php/db_connection.php';
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+
+  // Prepare the SQL statement to fetch user data
+  $sql = "SELECT * FROM users WHERE email='$username' AND password='$password'";
+  $result = mysqli_query($conn, $sql);
+
+  // Start the session
+  session_start();
+
+  // Check if user with given credentials exists
+  if (mysqli_num_rows($result) == 1) {
+
+    // Valid login, fetch user_id and store it in session variable
+    $row = mysqli_fetch_assoc($result);
+    $_SESSION['user_id'] = $row['user_id'];
+    $_SESSION['email'] = $row['email'];
+
+    
+    // Valid login, redirect to expenses.php
+    $_SESSION['logged_in'] = true;
+
+    header("Location: dashboard.php");
+    
+    exit();
+  } else {
+    // Invalid login, display error message
+    $_SESSION['message'] = "Invalid username or password. Please try again.";
+  }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,8 +62,8 @@
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="dashboard.php">User Dashboard</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="register.html">Register</a></li>
+            <li><a href="login.php">Login</a></li>
+            <li><a href="register.php">Register</a></li>
           </ul>
         </nav>
         <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
@@ -38,8 +77,16 @@
         <div class="col-sm-8">
           <div class="card">
             <div class="card-body">
+
+                <!-- Display messages here -->
+                <?php
+                if (isset($_SESSION['message'])) {
+                    echo '<div class="message">' . $_SESSION['message'] . '</div>';
+                    unset($_SESSION['message']); // Clear the message after displaying
+                }
+                ?><br>
               <!-- Makes POST request to /login route -->
-              <form action="php/login.php" method="POST" id="login-form">
+              <form method="POST" id="login-form">
                 <div class="form-group">
                   <label for="email">Email</label>
                   <input type="email" class="form-control" name="username" id="email"/>
@@ -52,7 +99,11 @@
                   <ul class="error-list"></ul>
                 </div>
                 <button type="submit" class="btn btn-dark">Login</button>
-              </form>
+              </form><br>
+
+              <div class="form-group" onclick="location.href='register.php';" style="cursor: pointer;">
+                <button class="addExpensesBtn">Don't have an account. <br> Register Here</button>
+            </div>
             </div>
           </div>
         </div>
