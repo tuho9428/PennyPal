@@ -1,3 +1,16 @@
+<?php
+
+session_start();
+
+$user_id = $_SESSION['user_id'];
+$email = $_SESSION['email'];
+
+if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
+  header("Location: login.html");
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,69 +21,143 @@
   <link href="./CSS/login.css" rel="stylesheet">
   <link href="./CSS/report.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/nav.js" defer></script>
+
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .mt-5 {
+            margin-top: 5px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        button a {
+            color: #fff;
+            cursor: pointer;
+        }
+
+
+        .addExpensesBtn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 3px;s
+            cursor: pointer;
+        }
+
+        button[name="logout"] {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 <header>
-  <div class="top-container">
-    <div class="logo-container">
-      <img src="./images/logo.png" alt="Logo">
-      <h1>PennyPal</h1>
-    </div>
+      <div class="top-container">
+        <div class="logo-container">
+          <img src="./images/logo.png" alt="Logo" />
+          <h1>PennyPal</h1>
+        </div>
+      </div>
+  
+      <div class="nav-container">
+        <nav>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="dashboard.php">User Dashboard</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li>
+            <?php
+            if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+              echo '<span>Hello, ' . $email . '</span>';
+            }
+            ?>
+    </li>
+          </ul>
+        </nav>
+        <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
+      </div>
+    </header>
 
-    <div class="nav-container">
-      <nav>
-        <ul>
-          <li><a href="home.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="dashboard.php">User Dashboard</a></li>
-          <li><a href="login.html">Login</a></li>
-          <li><a href="register.html">Register</a></li>
-        </ul>
-      </nav>
-    </div>
-</header>
-
-<div class="a-container">
-    <h2>Reports</h2>
-    <p>Look at your journey here!</p>
-    <img id="add" src="./images/report.webp" alt="Home 1">
+<div class="container">
+    <img style="height: 150px; width: 100%;" src="./images/report.webp" alt="Home 1">
 </div>
 
-
-<div class="container mt-5">
-
-  <div class="row">
-    <div class="col-sm-8">
-      <div class="card">
-        <div class="card-body">
-
-          <!-- Makes POST request to /login route -->
+<div class="add-container">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="card">
+          <div class="card-body">
+            <!-- Makes GET request -->
             <div class="form-group">
-            <form action="report_m.php"  method="GET">
-                <button type="submit">report_month</button>
-        </form>
-            </div>
+                <form action="php/report_m.php"  method="GET">
+                  <button type="submit">Monthly Reports</button>
+                </form>
+              </div>
 
-            <div class="form-group">
-            <form action="report_y.php"  method="GEt">
-                <button type="submit">report_year</button>
-        </form>
-            </div>
-
-
+              <div class="form-group">
+                <form action="php/report_y.php"  method="GEt">
+                  <button type="submit">Yearly Reports</button>
+                </form>
+              </div>
+          </div>
         </div>
       </div>
     </div>
-    </div>
-    </div>
+  </div>
+</div>
 
 
 <div class="add-container">
-    <div class="form-group">
-        <button class="addExpensesBtn"><a href="dashboard.php">User Dashboard</a></button>
+
+    <div class="form-group" onclick="location.href='dashboard.php';" style="cursor: pointer;">
+        <button class="addExpensesBtn">User Dashboard</button>
     </div>
 
-    <form method="post">
+    <form method="post" action=php/logout.php>
         <button type="submit" name="logout">Logout</button>
     </form>
 </div>
@@ -195,7 +282,7 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../script.js"></script>
+<script src="js/script.js"></script>
 
 
 </body>

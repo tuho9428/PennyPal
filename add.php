@@ -9,7 +9,8 @@ $user_id = $_SESSION['user_id'];
 // Check if the 'logged_in' session variable exists and is set to true
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     // User is logged in, display the expenses page content
-    echo "Welcome to the expenses page!";
+    //echo "Welcome to the expenses page!";
+    $email= $_SESSION['email'];
 } else {
     // User is not logged in, redirect them to the login page
     header("Location: login.html");
@@ -68,43 +69,144 @@ if ($resultBudget->num_rows > 0) {
   <title> PennyPal</title>
   <link href="./CSS/index.css" rel="stylesheet">
   <link href="./CSS/login.css" rel="stylesheet">
-  <script src="script.js" defer></script>
+  <script src="js/script.js" defer></script>
+  <script src="js/nav.js" defer></script>
+
+  <style>
+    .container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+img#add {
+    width: 100%;
+    height: auto;
+}
+
+.add-container {
+    margin-top: 20px;
+}
+
+#add-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+select,
+button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+select {
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.addExpensesBtn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.addExpensesBtn a {
+    color: white;
+    text-decoration: none;
+}
+
+#addExpenseBtn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+button[name="logout"] {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#addExpenseBtn:hover{
+    background-color: #dc3545;
+}
+
+    </style>
   
 </head>
+<body>
 <header>
-  <div class="top-container">
-    <div class="logo-container">
-      <img src="./images/logo.png" alt="Logo">
-      <h1>PennyPal</h1>
-    </div>
+      <div class="top-container">
+        <div class="logo-container">
+          <img src="./images/logo.png" alt="Logo" />
+          <h1>PennyPal</h1>
+        </div>
+      </div>
+  
+      <div class="nav-container">
+        <nav>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="dashboard.php">User Dashboard</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li>
+            <?php
+    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+        echo '<span>Hello, ' . $email . '</span>';
+    }
+    ?>
+    </li>
+          </ul>
+        </nav>
+        <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
+      </div>
+    </header>
 
-  </div>
 
-  <div class="nav-container">
-    <nav>
-      <ul>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="dashboard.php">User Dashboard</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="register.html">Register</a></li>
-      </ul>
-    </nav>
-  </div>
+<div class="container">
+    <img id="add" src="./images/add.jpg" style="height: 250px" alt="Home 1">
 
-</header>
-
-<div class="a-container">
-    <h2>Add Expenses</h2>
-    <p>Keep track of your money!</p>
-
-    <img id="add" src="./images/add.jpg" alt="Home 1">
-
-</div>
 
 
 <div class="add-container">
+        <!-- Display messages here -->
+        <?php
+        if (isset($_SESSION['message'])) {
+            echo '<div class="message">' . $_SESSION['message'] . '</div>';
+            unset($_SESSION['message']); // Clear the message after displaying
+        }
+        ?>
 
     <div id="add-section">
         <form method="POST" action="php/expenses.php" >
@@ -125,55 +227,53 @@ if ($resultBudget->num_rows > 0) {
         <option value="" disabled selected>Select a category</option>
         <!-- Loop through categories and generate options -->
         <?php foreach ($categories as $categoryId => $categoryName): ?>
-            <option value="<?php echo $categoryName; ?>"><?php echo $categoryName; ?></option>
+                    <option value="<?php echo $categoryName; ?>"><?php echo $categoryName; ?></option>
         <?php endforeach; ?>
     </select>
 </div>
 
-<!-- Display budget limits for the user -->
-<div>
-    <h3>User Budget Settings:</h3>
-    <ul>
-        <?php foreach ($userBudgetSettings as $category => $budgetLimit): ?>
-            <li><?php echo $category . ": $" . $budgetLimit; ?></li>
-        <?php endforeach; ?>
-    </ul>
-</div>
-
-
-            <div class="form-group">
-                <button class="addExpensesBtn"  method="POST" action="update.php"> <a href="update.php">Add a New Category </a ></button>
-            </div>
-
-
             <div>
                 <label for="expenseDateInput">Date:</label>
-                <input type="date" id="dateInput" name="date" placeholder="Enter expense date" value="">
+                <input type="date" id="dateInput" name="date" placeholder="Enter expense date" value=""><br><br><br>
             </div>
 
             <div>
-                <button type="submit" id="addExpenseBtn">Add Expense</button>
+                <button type="submit" >Add Expense</button>
             </div>
         </form>
+
     </div>
-
-
-
 
 </div>
 
+</div>
+<div class="add-container">
+<!-- Display budget limits for the user -->
+<div>
+    <h3>Your Budget Settings:</h3>
+    <ul>
+        <?php foreach ($userBudgetSettings as $category => $budgetLimit): ?>
+                    <li><?php echo $category . ": $" . $budgetLimit; ?></li>
+        <?php endforeach; ?>
+    </ul>
+</div> <br><br>
 
 <div class="form-group">
-<form method="get" action= "dashboard.php">
-    <button class="addExpensesBtn" type="submit" name="userdashboard">User Dashboard</button>
-</form>
+                <button class="addExpensesBtn"  method="POST" onclick="location.href='./php/update.php'"> <a href="php/update.php">Add a New Category? </a ></button>
+            </div>
+</div>
+
+<div class="add-container">
+<div class="form-group">
+<div class="form-group" onclick="location.href='dashboard.php';" style="cursor: pointer;">
+    <button class="addExpensesBtn">User Dashboard</button>
+</div>
 </div>
 
 <form method="post" action= "php/logout.php">
     <button type="submit" name="logout">Logout</button>
 </form>
-
-
+</div>
 
 <footer class="footer" id="sec-f268">
     <div class="footer-content">
@@ -200,12 +300,7 @@ if ($resultBudget->num_rows > 0) {
     </div>
 </footer>
 
-<script src="script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="script.js"></script>
-<script>
-
-</script>
 
 </body>
 </html>

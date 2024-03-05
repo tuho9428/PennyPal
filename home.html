@@ -3,8 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <title>PennyPal</title>
-    <link href="./CSS/index.css" rel="stylesheet" />
-    <link href="./CSS/home.css" rel="stylesheet" />
+    <link href="CSS/index.css" rel="stylesheet" />
+    <link href="CSS/login.css" rel="stylesheet" />
+    <script src="js/script.js" defer></script>
+    <script src="js/nav.js" defer></script>
+
+    <style>
+      .accordion-container {
+        margin-top: 20px;
+      }
+
+      .accordion-title {
+        background-color: #f1f1f1;
+        color: #333;
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .accordion-content {
+        display: none;
+        padding: 10px;
+      }
+
+      .active {
+        display: block;
+      }
+    </style>
+
+    <style>
+
+    </style>
   </head>
 
   <body>
@@ -27,6 +56,7 @@
             <li><a href="register.html">Register</a></li>
           </ul>
         </nav>
+        <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
       </div>
     </header>
 
@@ -35,19 +65,7 @@
     <section>
       
       <div class="container">
-        <img
-        id="disappearing-image"
-        src="./images/contact1.jpg"
-        style="width: 100%; height: 100%"
-        alt="Home 1"
-      />
-        <div id="slideshow-container">
-          <img
-            id="slideshow-img"
-            style="width: 100%; height: 100%; display: none;"
-            alt="Slideshow Image"
-          />
-        </div>
+        <img src="./images/home11.jpg" alt="Home 1" />
       </div>
     </section>
 
@@ -103,13 +121,24 @@
           </p>
         </div>
       </div>
-
-      <br /><br /><br />
-
-
     </section>
 
+    <section>
+      <!--  <div class="tooltip">
+        Hover over me for a tooltip
+        <span class="tooltip-text">This is a tooltip text</span>
+      </div> -->
+      <!-- Interactive Accordion -->
+      <div class="accordion-title">Track Expenses</div>
+      <div class="accordion-content">Add Expenses</div>
 
+      <div class="accordion-title">Budget Setting</div>
+      <div class="accordion-content">Set a Budget</div>
+
+      <div class="accordion-title">Reports</div>
+      <div class="accordion-content">View a Report</div>
+      <br /><br /><br />
+    </section>
 
     <footer class="footer" id="sec-f268">
       <div class="footer-content">
