@@ -1,3 +1,16 @@
+<?php
+
+session_start();
+
+$user_id = $_SESSION['user_id'];
+$email = $_SESSION['email'];
+
+if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
+  header("Location: login.html");
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,17 +66,18 @@
             margin-bottom: 10px;
         }
 
-        button:hover {
-            background-color: #0056b3;
+        button a {
             color: #fff;
+            cursor: pointer;
         }
+
 
         .addExpensesBtn {
             background-color: #28a745;
             color: #fff;
             padding: 8px 15px;
             text-decoration: none;
-            border-radius: 3px;
+            border-radius: 3px;s
             cursor: pointer;
         }
 
@@ -74,6 +88,7 @@
             border-radius: 3px;
             cursor: pointer;
         }
+
     </style>
 </head>
 <header>
@@ -93,6 +108,13 @@
             <li><a href="dashboard.php">User Dashboard</a></li>
             <li><a href="login.html">Login</a></li>
             <li><a href="register.html">Register</a></li>
+            <li>
+            <?php
+            if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+              echo '<span>Hello, ' . $email . '</span>';
+            }
+            ?>
+    </li>
           </ul>
         </nav>
         <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
@@ -104,38 +126,35 @@
 </div>
 
 <div class="add-container">
-<div class="container mt-5">
-
-  <div class="row">
-    <div class="col-sm-8">
-      <div class="card">
-        <div class="card-body">
-
-          <!-- Makes POST request to /login route -->
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="card">
+          <div class="card-body">
+            <!-- Makes GET request -->
             <div class="form-group">
-            <form action="report_m.php"  method="GET">
-                <button type="submit">Monthly Reports</button>
-        </form>
-            </div>
+                <form action="report_m.php"  method="GET">
+                  <button type="submit">Monthly Reports</button>
+                </form>
+              </div>
 
-            <div class="form-group">
-            <form action="report_y.php"  method="GEt">
-                <button type="submit">Yearly Reports</button>
-        </form>
-            </div>
-
-
+              <div class="form-group">
+                <form action="report_y.php"  method="GEt">
+                  <button type="submit">Yearly Reports</button>
+                </form>
+              </div>
+          </div>
         </div>
       </div>
     </div>
-    </div>
-    </div>
-    </div>
+  </div>
+</div>
 
 
 <div class="add-container">
-    <div class="form-group">
-        <button class="addExpensesBtn"><a href="dashboard.php">User Dashboard</a></button>
+
+    <div class="form-group" onclick="location.href='dashboard.php';" style="cursor: pointer;">
+        <button class="addExpensesBtn">User Dashboard</button>
     </div>
 
     <form method="post">

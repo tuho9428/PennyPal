@@ -146,7 +146,7 @@ button:hover {
             <li>
             <?php
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-        echo '<span>Welcome, ' . $email . '</span>';
+        echo '<span>Hello, ' . $email . '</span>';
     }
     ?>
             </li>

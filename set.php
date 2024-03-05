@@ -10,6 +10,7 @@ $user_id = $_SESSION['user_id'];
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
   // User is logged in, display the expenses page content
   //echo "Welcome to the expenses page!";
+  $email= $_SESSION['email'];
 } else {
   // User is not logged in, redirect them to the login page
   header("Location: login.html");
@@ -245,8 +246,13 @@ button a {
             <li><a href="dashboard.php">User Dashboard</a></li>
             <li><a href="login.html">Login</a></li>
             <li><a href="register.html">Register</a></li>
-            <
-            <li><a href="register.html">Register</a></li>
+            <li>
+            <?php
+    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+        echo '<span>Hello, ' . $email . '</span>';
+    }
+    ?>
+    </li>
           </ul>
         </nav>
         <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
@@ -307,9 +313,9 @@ button a {
     </ul>
 
     <div class="form-group">
-      <button class="addExpensesBtn">
-        <a href="dashboard.php">User Dashboard</a>
-      </button>
+    <div class="form-group" onclick="location.href='dashboard.php';" style="cursor: pointer;">
+    <button class="addExpensesBtn">User Dashboard</button>
+</div>
     </div>
     </div>
 

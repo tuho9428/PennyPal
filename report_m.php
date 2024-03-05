@@ -3,6 +3,7 @@
 session_start();
 
 $user_id = $_SESSION['user_id'];
+$email= $_SESSION['email'];
 
 if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
   header("Location: login.html");
@@ -67,6 +68,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
             padding: 0;
             background-color: #f4f4f4;
         }
+        
+        button a {
+            color: #fff;
+            cursor: pointer;
+        }
 
         .container {
             max-width: 800px;
@@ -124,8 +130,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
         }
 
         button:hover {
-            background-color: #0056b3;
-        }
+            background-color: #99d49c;
+            color: white;
+          }
 
         .addExpensesBtn {
             background-color: #28a745;
@@ -160,6 +167,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
           <li><a href="dashboard.php">User Dashboard</a></li>
           <li><a href="login.html">Login</a></li>
           <li><a href="register.html">Register</a></li>
+          <li>
+            <?php
+    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+        echo '<span>Hello, ' . $email . '</span>';
+    }
+    ?>
+    </li>
         </ul>
       </nav>
     </div>
@@ -170,30 +184,37 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
 
 <div class="table-container">
     <?php
-    $expenseDetails = isset($expenseDetails) ? $expenseDetails : [];
-    $totalMonthlyExpense = isset($totalMonthlyExpense) ? $totalMonthlyExpense : 0;
-    
-    echo "<table border='1'>
-            <tr>
-              <th>Expense ID</th>
-              <th>Category</th>
-              <th>Amount</th>
-              <th>Expense Date</th>
-            </tr>";
-    foreach ($expenseDetails as $expense) {
+    if (isset($_GET['selected_year']) && isset($_GET['selected_month'])) {
+      $expenseDetails = isset($expenseDetails) ? $expenseDetails : [];
+      $totalMonthlyExpense = isset($totalMonthlyExpense) ? $totalMonthlyExpense : 0;
+      
+      echo "<table border='1'>
+              <tr>
+                <th>Expense ID</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Expense Date</th>
+              </tr>";
+      foreach ($expenseDetails as $expense) {
+        echo "<tr>
+                <td>" . $expense['expense_id'] . "</td>
+                <td>" . $expense['category'] . "</td>
+                <td>$" . $expense['amount'] . "</td>
+                <td>" . $expense['expense_date'] . "</td>
+              </tr>";
+      }
       echo "<tr>
-              <td>" . $expense['expense_id'] . "</td>
-              <td>" . $expense['category'] . "</td>
-              <td>$" . $expense['amount'] . "</td>
-              <td>" . $expense['expense_date'] . "</td>
+              <td colspan='2'>Total Expense for Month " . (isset($selectedMonth) ? $selectedMonth : '') . "</td>
+              <td colspan='2'>$" . $totalMonthlyExpense . "</td>
             </tr>";
-    }
-    echo "<tr>
-            <td colspan='2'>Total Expense for Month " . (isset($selectedMonth) ? $selectedMonth : '') . "</td>
-            <td colspan='2'>$" . $totalMonthlyExpense . "</td>
-          </tr>";
+  
+      echo "</table>";
 
-    echo "</table>";
+
+    } else {
+      echo "Please pick a month and a year";
+  }
+
     ?>
 </div>
 
@@ -230,9 +251,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
 
 
 <div class="add-container">
-    <div class="form-group">
-        <button class="addExpensesBtn"><a href="dashboard.php">User Dashboard</a></button>
-    </div>
+  <div class="form-group" onclick="location.href='dashboard.php';" style="cursor: pointer;">
+      <button class="addExpensesBtn">User Dashboard</button>
+  </div>
+
+  <div class="form-group" onclick="location.href='report.php';" style="cursor: pointer;">
+      <button class="addExpensesBtn">Back</button>
+  </div>
 
     <form method="post">
         <button type="submit" name="logout">Logout</button>

@@ -4,7 +4,7 @@ nav li {
 
 nav li a {
   text-decoration: none;
-  padding: 10px 20px;
+  padding: 5px 10px;
 }
 
 nav li a:hover {
@@ -157,6 +157,7 @@ button[type="submit"] {
 /* Style for submit button on hover */
 button[type="submit"]:hover {
   background-color: #0056b3;
+  color: #fff;
 }
 
 /* Style for the form container */
@@ -200,7 +201,7 @@ button {
 
 button:hover {
   background-color: #99d49c;
-  color: rgb(12, 12, 12);
+  color: white;
 }
 
 /* Style for unordered list */
@@ -289,10 +290,10 @@ nav ul {
 }
 
 nav li {
-  margin: 20px;
+  margin: 10px;
 }
 
-@media (max-width: 830px) {
+@media (max-width: 760px) {
   nav ul {
     display: none;
     flex-direction: column;
@@ -308,7 +309,7 @@ nav li {
   display: none;
 }
 
-@media (max-width: 830px) {
+@media (max-width: 760px) {
   .burger-menu {
     display: block;
     cursor: pointer;
