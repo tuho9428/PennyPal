@@ -200,6 +200,13 @@ button[name="logout"] {
 
 
 <div class="add-container">
+        <!-- Display messages here -->
+        <?php
+        if (isset($_SESSION['message'])) {
+            echo '<div class="message">' . $_SESSION['message'] . '</div>';
+            unset($_SESSION['message']); // Clear the message after displaying
+        }
+        ?>
 
     <div id="add-section">
         <form method="POST" action="php/expenses.php" >
@@ -234,6 +241,7 @@ button[name="logout"] {
                 <button type="submit" >Add Expense</button>
             </div>
         </form>
+
     </div>
 
 </div>
@@ -251,7 +259,7 @@ button[name="logout"] {
 </div> <br><br>
 
 <div class="form-group">
-                <button class="addExpensesBtn"  method="POST" action="php/update.php"> <a href="php/update.php">Add a New Category? </a ></button>
+                <button class="addExpensesBtn"  method="POST" onclick="location.href='./php/update.php'"> <a href="php/update.php">Add a New Category? </a ></button>
             </div>
 </div>
 

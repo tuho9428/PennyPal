@@ -67,7 +67,7 @@ if ($resultBudget->num_rows > 0) {
     <link href="./CSS/index.css" rel="stylesheet" />
     <link href="./CSS/login.css" rel="stylesheet" />
     <link href="./CSS/set.css" rel="stylesheet" />
-    <script src="nav.js" defer></script>
+    <script src="js/nav.js" defer></script>
     <style>
 .container {
   text-align: center;
@@ -264,7 +264,16 @@ button a {
 </div>
 
     <div class="add-container">
-    <form method="POST" action="save_budget.php">
+
+            <!-- Display messages here -->
+            <?php
+        if (isset($_SESSION['message'])) {
+            echo '<div class="message"><h3>' . $_SESSION['message'] . '</<h3></div>';
+            unset($_SESSION['message']); // Clear the message after displaying
+        }
+        ?>
+
+    <form method="POST" action="php/save_budget.php">
       <div class="budget-form">
         <label for="category">Select Category:</label>
         <select id="category" name="category">
@@ -320,7 +329,7 @@ button a {
     </div>
 
     <div class="add-container">
-    <form method="post">
+    <form method="post" action=php/logout.php>
       <button type="submit" name="logout">Logout</button>
     </form>
     </div>
@@ -357,6 +366,6 @@ button a {
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>

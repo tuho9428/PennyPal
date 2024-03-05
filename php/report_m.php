@@ -55,11 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
 <head>
   <meta charset="UTF-8">
   <title>PennyPal</title>
-  <link href="./CSS/index.css" rel="stylesheet">
-  <link href="./CSS/login.css" rel="stylesheet">
-  <link href="./CSS/report.css" rel="stylesheet">
+  <link href="../CSS/index.css" rel="stylesheet">
+  <link href="../CSS/login.css" rel="stylesheet">
+  <link href="../CSS/report.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+  <script src="../js/script.js" defer></script>
+<script src="../js/nav.js" defer></script>
+
 
 <style>
         body {
@@ -151,22 +153,24 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
             cursor: pointer;
         }
     </style>
+    </head>
+    <body>
 <header>
   <div class="top-container">
     <div class="logo-container">
-      <img src="./images/logo.png" alt="Logo">
+      <img src="../images/logo.png" alt="Logo">
       <h1>PennyPal</h1>
     </div>
 
     <div class="nav-container">
       <nav>
         <ul>
-          <li><a href="home.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="dashboard.php">User Dashboard</a></li>
-          <li><a href="login.html">Login</a></li>
-          <li><a href="register.html">Register</a></li>
+        <li><a href="../home.html">Home</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+            <li><a href="../dashboard.php">User Dashboard</a></li>
+            <li><a href="../login.html">Login</a></li>
+            <li><a href="../register.html">Register</a></li>
           <li>
             <?php
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
@@ -176,10 +180,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
     </li>
         </ul>
       </nav>
+      <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
     </div>
 </header>
 <div class="container">
-    <img style="height: 100px; width: 100%;" src="./images/report.webp" alt="Home 1">
+    <img style="height: 100px; width: 100%;" src="../images/report.webp" alt="Home 1">
 </div>
 
 <div class="table-container">
@@ -251,17 +256,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
 
 
 <div class="add-container">
-  <div class="form-group" onclick="location.href='dashboard.php';" style="cursor: pointer;">
+  <div class="form-group" onclick="location.href='../dashboard.php';" style="cursor: pointer;">
       <button class="addExpensesBtn">User Dashboard</button>
   </div>
 
-  <div class="form-group" onclick="location.href='report.php';" style="cursor: pointer;">
+  <div class="form-group" onclick="location.href='../report.php';" style="cursor: pointer;">
       <button class="addExpensesBtn">Back</button>
   </div>
 
-    <form method="post">
-        <button type="submit" name="logout">Logout</button>
-    </form>
 </div>
 
 <footer class="footer" id="sec-f268">
@@ -290,8 +292,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isse
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../script.js"></script>
-
 
 </body>
 

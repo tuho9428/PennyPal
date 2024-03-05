@@ -4,6 +4,7 @@ session_start();
 
 $user_id = $_SESSION['user_id'];
 $email= $_SESSION['email'];
+
 if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
   header("Location: login.html");
   exit();
@@ -20,46 +21,27 @@ if ($mysqli->connect_error) {
   die("Connection failed: " . $mysqli->connect_error);
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year'])) {
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year']) && isset($_GET['selected_month'])) {
   $selectedYear = $_GET['selected_year'];
+  $selectedMonth = $_GET['selected_month'];
 
-  $categories = [];
-  $sqlCategories = "SELECT category_id, category_name FROM categories";
-  $resultCategories = $mysqli->query($sqlCategories);
+  $selectedDate = $selectedYear . '-' . str_pad($selectedMonth, 2, '0', STR_PAD_LEFT);
 
-  while ($row = $resultCategories->fetch_assoc()) {
-    $categories[$row['category_id']] = $row['category_name'];
-  }
+  $expenseDetails = [];
+  $sqlExpenseDetails = "SELECT e.expense_id, e.category, e.amount, e.expense_date
+                        FROM expenses e
+                        JOIN categories c ON c.category_name = e.category
+                        WHERE e.user_id = '$user_id' AND DATE_FORMAT(e.expense_date, '%Y-%m') = '$selectedDate'";
+  $resultExpenseDetails = $mysqli->query($sqlExpenseDetails);
 
-  $userBudgetSettings = [];
-  $sqlBudget = "SELECT c.category_name, bs.budget_limit FROM budget_settings bs
-                JOIN categories c ON bs.category_id = c.category_id
-                WHERE bs.user_id = '$user_id'";
-  $resultBudget = $mysqli->query($sqlBudget);
-
-  if ($resultBudget === false) {
+  if ($resultExpenseDetails === false) {
     echo "Error: " . $mysqli->error;
   } else {
-    while ($rowBudget = $resultBudget->fetch_assoc()) {
-      $userBudgetSettings[$rowBudget['category_name']] = $rowBudget['budget_limit'];
-    }
-
-    $totalExpensesPerCategoryPerMonth = [];
-    $totalAmountPerMonth = [];
-
-    $sqlExpensesPerYear = "SELECT c.category_name, SUM(e.amount) AS total_expense, MONTH(e.expense_date) AS expense_month
-                          FROM expenses e
-                          JOIN categories c ON e.category = c.category_name
-                          WHERE e.user_id = '$user_id' AND YEAR(e.expense_date) = '$selectedYear'
-                          GROUP BY c.category_name, MONTH(e.expense_date)";
-    $resultExpensesPerYear = $mysqli->query($sqlExpensesPerYear);
-
-    if ($resultExpensesPerYear === false) {
-      echo "Error: " . $mysqli->error;
-    } else {
-      while ($rowExpenseMonth = $resultExpensesPerYear->fetch_assoc()) {
-        $totalExpensesPerCategoryPerMonth[$rowExpenseMonth['category_name']][$rowExpenseMonth['expense_month']] = $rowExpenseMonth['total_expense'];
-        $totalAmountPerMonth[$rowExpenseMonth['expense_month']] = isset($totalAmountPerMonth[$rowExpenseMonth['expense_month']]) ? $totalAmountPerMonth[$rowExpenseMonth['expense_month']] + $rowExpenseMonth['total_expense'] : $rowExpenseMonth['total_expense'];
+    $totalMonthlyExpense = 0;
+    if ($resultExpenseDetails->num_rows > 0) {
+      while ($rowExpenseDetail = $resultExpenseDetails->fetch_assoc()) {
+        $expenseDetails[] = $rowExpenseDetail;
+        $totalMonthlyExpense += $rowExpenseDetail['amount'];
       }
     }
   }
@@ -197,7 +179,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year'])) {
   
 </head>
 <body>
-
 <header>
       <div class="top-container">
         <div class="logo-container">
@@ -215,11 +196,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year'])) {
             <li><a href="../dashboard.php">User Dashboard</a></li>
             <li><a href="../login.html">Login</a></li>
             <li><a href="../register.html">Register</a></li>
-            <?php
-    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-        echo '<span>Hello, ' . $email . '</span>';
-    }
-    ?>
           </ul>
         </nav>
         <div class="burger-menu" style="margin-left: 95%">&#9776;</div>
@@ -330,6 +306,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year'])) {
     <button class="addExpensesBtn">Back</button>
 </div>
 
+
+    <form method="post">
+        <button type="submit" name="logout">Logout</button>
+    </form>
 </div>
 
 <footer class="footer" id="sec-f268">

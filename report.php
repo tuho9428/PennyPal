@@ -21,7 +21,7 @@ if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
   <link href="./CSS/login.css" rel="stylesheet">
   <link href="./CSS/report.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="nav.js" defer></script>
+  <script src="js/nav.js" defer></script>
 
   <style>
         body {
@@ -133,13 +133,13 @@ if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
           <div class="card-body">
             <!-- Makes GET request -->
             <div class="form-group">
-                <form action="report_m.php"  method="GET">
+                <form action="php/report_m.php"  method="GET">
                   <button type="submit">Monthly Reports</button>
                 </form>
               </div>
 
               <div class="form-group">
-                <form action="report_y.php"  method="GEt">
+                <form action="php/report_y.php"  method="GEt">
                   <button type="submit">Yearly Reports</button>
                 </form>
               </div>
@@ -157,7 +157,7 @@ if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
         <button class="addExpensesBtn">User Dashboard</button>
     </div>
 
-    <form method="post">
+    <form method="post" action=php/logout.php>
         <button type="submit" name="logout">Logout</button>
     </form>
 </div>
@@ -282,7 +282,7 @@ if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../script.js"></script>
+<script src="js/script.js"></script>
 
 
 </body>

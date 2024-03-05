@@ -8,7 +8,7 @@ $user_id = $_SESSION['user_id'];
 // Check if the 'logged_in' session variable exists and is set to true
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
   // User is logged in, display the expenses page content
-  echo "Welcome to the expenses page!";
+  //echo "Welcome to the expenses page!";
 } else {
   // User is not logged in, redirect them to the login page
   header("Location: login.html");
@@ -50,15 +50,20 @@ if ($categoryResult->num_rows > 0) {
     $stmt->bind_param("iiis", $user_id, $category_id, $budget, $timeframe);
 
     if ($stmt->execute()) {
-        echo "Budget saved successfully for $category category in $timeframe timeframe";
+        $_SESSION['message'] = "Budget saved successfully for $category category in $timeframe timeframe";
+        header("Location: ../set.php"); // Redirect back to the form page
+        exit();
     } else {
-        echo "Error: " . $stmt->error;
+        $_SESSION['message'] = "Error: " . $stmt->error;
+        header("Location: ../set.php"); // Redirect back to the form page
     }
 
     // Close the statement
     $stmt->close();
 } else {
-    echo "Category not found.";
+    $_SESSION['message'] = "Category not found.";
+    header("Location: ../set.php"); // Redirect back to the form page
+    exit();
 }
 
 $conn->close();

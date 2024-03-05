@@ -8,10 +8,11 @@ session_start();
 // Access user_id from session variable
 $user_id = $_SESSION['user_id'];
 
+
 // Check if the 'logged_in' session variable exists and is set to true
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     // User is logged in, display the expenses page content
-    echo "Welcome to the expenses page!";
+    // echo "Welcome to the expenses page!";
 } else {
     // User is not logged in, redirect them to the login page
     header("Location: ../login.html");
@@ -84,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Execute the statement
         if ($stmt->execute()) {
-            echo "Expense saved successfully.";
+            
 
             // Check if the expense exceeds the budget limit for the category in the specific timeframe
             if ($budgetLimit !== null && $expenseAmount > $budgetLimit) {
@@ -165,14 +166,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt_expense_month_details->execute();
             $stmt_expense_month_details->close();
 
+            $_SESSION['message'] = "Expense saved successfully.";
+            header("Location: ../add.php"); // Redirect back to the form page
+            exit();
+           
+
         } else {
-            echo "Error: " . $conn->error;
+            $_SESSION['message'] = "Error: " . $conn->error;
+            header("Location: ../add.php"); // Redirect back to the form page
         }
 
         // Close the statement
         $stmt->close();
     } else {
-        echo "Amount cannot be empty.";
+        $_SESSION['message'] = "Amount cannot be empty.";
+        header("Location: ../add.php"); // Redirect back to the form page
+        exit();
     }
 }
 

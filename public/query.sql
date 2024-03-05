@@ -8,12 +8,17 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS budgets;
 
 -- Create tables
-CREATE TABLE users (
+CREATE TABLE user_info (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    name VARCHAR(50),
+    age INT,
+    address VARCHAR(100),
+    phone VARCHAR(20)
 );
+
 
 CREATE TABLE categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,

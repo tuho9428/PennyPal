@@ -225,6 +225,11 @@ button:hover {
                                 </form>
                             </div>
                             <div class="form-group">
+                                <form method="get" action="user.php">
+                                    <button type="submit" name="logout">User Information</button>
+                                </form>
+                            </div>
+                            <div class="form-group">
                                 <form method="post">
                                     <button type="submit" name="logout" id="logout-button">Logout</button>
                                 </form>
