@@ -143,7 +143,6 @@ button a {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
 
         .container {
@@ -305,7 +304,7 @@ button a {
 
         </form>
           <div class="form-group">
-                <button class="addExpensesBtn"  method="POST" action="update.php"> <a href="update.php">Need to Add a New Category?</a ></button>
+                <button class="addExpensesBtn"  method="POST" action="php/update.php"> <a href="php/update.php">Need to Add a New Category?</a ></button>
             </div>
       </div>
 

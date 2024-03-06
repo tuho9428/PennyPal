@@ -28,7 +28,6 @@ if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
 
         .container {

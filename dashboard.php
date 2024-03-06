@@ -216,22 +216,22 @@ if ($resultRecentTransactions === false) {
                             <!-- Buttons Section -->
                             <div class="form-group">
                                 <form method="get" action="add.php">
-                                    <button type="submit" name="logout">Add Expenses</button>
+                                    <button type="submit">Add Expenses</button>
                                 </form>
                             </div>
                             <div class="form-group">
                                 <form method="get" action="set.php">
-                                    <button type="submit" name="logout">Set Budget</button>
+                                    <button type="submit">Set Budget</button>
                                 </form>
                             </div>
                             <div class="form-group">
                                 <form method="get" action="report.php">
-                                    <button type="submit" name="logout">Reports</button>
+                                    <button type="submit">Reports</button>
                                 </form>
                             </div>
                             <div class="form-group">
                                 <form method="get" action="user.php">
-                                    <button type="submit" name="logout">User Information</button>
+                                    <button type="submit">User Information</button>
                                 </form>
                             </div>
                             <div class="form-group">
