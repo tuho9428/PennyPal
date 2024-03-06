@@ -138,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     
     <form method="GET" action="../add.php">
-        <button type="submit">Back to ADD</button>
+        <button type="submit">Back</button>
     </form>
 
     <form method="GET" action="../dashboard.php">
@@ -147,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
+<?php
 
-</body>
-
-</html>
+include_once 'footer.php';
+?>

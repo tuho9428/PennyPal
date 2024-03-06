@@ -115,9 +115,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="footer-info">
           <h3>About Us</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-            mauris lorem, dignissim ut odio vitae, vehicula ultrices nisi.
-          </p>
+            At TechTide, our mission is to empower individuals and businesses to take control of their finances and achieve their financial goals.
+            </p>
         </div>
         <div class="footer-links">
           <h3>Quick Links</h3>

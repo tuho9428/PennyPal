@@ -97,20 +97,6 @@ $conn->close(); // Close the database connection
         </div>
       </div>
     </div>
-
-        <!-- Makes POST request to /login route
-    <div class="col-sm-4">
-      <div class="card">
-        <div class="card-body">
-          <a class="btn btn-dark" href="/auth/google" role="button">
-            <i class="fab fa-google"></i>
-            Sign In with Google
-          </a>
-        </div>
-      </div>
-    </div>
-    -->
-
   </div>
 </div>
 
@@ -118,7 +104,7 @@ $conn->close(); // Close the database connection
   <div class="footer-content">
       <div class="footer-info">
           <h3>About Us</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mauris lorem, dignissim ut odio vitae, vehicula ultrices nisi.</p>
+  
       </div>
       <div class="footer-links">
           <h3>Quick Links</h3>
