@@ -68,6 +68,7 @@ if ($resultBudget->num_rows > 0) {
     <link href="./CSS/login.css" rel="stylesheet" />
     <link href="./CSS/set.css" rel="stylesheet" />
     <script src="js/nav.js" defer></script>
+    <script src="js/script.js" defer></script>
     <style>
 .container {
   text-align: center;
@@ -143,7 +144,6 @@ button a {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
 
         .container {
@@ -305,7 +305,7 @@ button a {
 
         </form>
           <div class="form-group">
-                <button class="addExpensesBtn"  method="POST" action="update.php"> <a href="update.php">Need to Add a New Category?</a ></button>
+                <button class="addExpensesBtn"  method="POST" action="php/update.php"> <a href="php/update.php">Need to Add a New Category?</a ></button>
             </div>
       </div>
 
@@ -340,9 +340,8 @@ button a {
         <div class="footer-info">
           <h3>About Us</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-            mauris lorem, dignissim ut odio vitae, vehicula ultrices nisi.
-          </p>
+            At TechTide, our mission is to empower individuals and businesses to take control of their finances and achieve their financial goals.
+            </p>
         </div>
         <div class="footer-links">
           <h3>Quick Links</h3>

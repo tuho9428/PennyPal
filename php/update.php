@@ -14,7 +14,6 @@
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        background-color: #f4f4f4;
     }
 
     h2 {
@@ -138,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     
     <form method="GET" action="../add.php">
-        <button type="submit">Back to ADD</button>
+        <button type="submit">Back</button>
     </form>
 
     <form method="GET" action="../dashboard.php">
@@ -147,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
+<?php
 
-</body>
-
-</html>
+include_once 'footer.php';
+?>

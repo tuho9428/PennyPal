@@ -28,7 +28,6 @@ if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
 
         .container {
@@ -166,7 +165,9 @@ if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
     <div class="footer-content">
         <div class="footer-info">
             <h3>About Us</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mauris lorem, dignissim ut odio vitae, vehicula ultrices nisi.</p>
+            <p>
+            At TechTide, our mission is to empower individuals and businesses to take control of their finances and achieve their financial goals.
+            </p>
         </div>
         <div class="footer-links">
             <h3>Quick Links</h3>
