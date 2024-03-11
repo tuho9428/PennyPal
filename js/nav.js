@@ -3,7 +3,7 @@ const burgerMenu = document.querySelector('.burger-menu');
 const nav = document.querySelector('nav ul');
 
 burgerMenu.addEventListener('click', () => {
-    nav1.classList.toggle('open');
+    nav.classList.toggle('open');
 });
 
 document.addEventListener('click', function(event) {
