@@ -68,6 +68,7 @@ if ($resultBudget->num_rows > 0) {
     <link href="./CSS/login.css" rel="stylesheet" />
     <link href="./CSS/set.css" rel="stylesheet" />
     <script src="js/nav.js" defer></script>
+    <script src="js/script.js" defer></script>
     <style>
 .container {
   text-align: center;
