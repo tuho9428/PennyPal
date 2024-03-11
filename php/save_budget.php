@@ -11,7 +11,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
   //echo "Welcome to the expenses page!";
 } else {
   // User is not logged in, redirect them to the login page
-  header("Location: login.html");
+  header("Location: login.php");
   exit();
 }
 
@@ -32,6 +32,12 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
+}
+
+if ($budget == null) {
+    $_SESSION['message'] = "Budget amount cannot be 0. Please enter a valid budget.";
+    header("Location: ../set.php"); // Redirect back to the form page
+    exit();
 }
 
 // Fetch category_id from categories table based on category name

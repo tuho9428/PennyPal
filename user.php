@@ -6,7 +6,7 @@ $user_id = $_SESSION['user_id'];
 $email = $_SESSION['email'];
 
 if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
-  header("Location: login.html");
+  header("Location: login.php");
   exit();
 }
 
@@ -104,8 +104,8 @@ $mysqli->close();
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="dashboard.php">User Dashboard</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="register.html">Register</a></li>
+            <li><a href="login.php">Login</a></li>
+            <li><a href="register.php">Register</a></li>
             <li>
             <?php
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {

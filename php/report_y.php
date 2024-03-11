@@ -5,7 +5,7 @@ session_start();
 $user_id = $_SESSION['user_id'];
 $email= $_SESSION['email'];
 if (!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true)) {
-  header("Location: login.html");
+  header("Location: login.php");
   exit();
 }
 
@@ -215,11 +215,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['selected_year'])) {
             <li><a href="../dashboard.php">User Dashboard</a></li>
             <li><a href="../login.html">Login</a></li>
             <li><a href="../register.html">Register</a></li>
-            <?php
+            <li> <?php
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
         echo '<span>Hello, ' . $email . '</span>';
     }
-    ?>
+    ?></li>
           </ul>
         </nav>
         <div class="burger-menu" style="margin-left: 95%">&#9776;</div>

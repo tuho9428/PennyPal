@@ -15,7 +15,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     // echo "Welcome to the expenses page!";
 } else {
     // User is not logged in, redirect them to the login page
-    header("Location: ../login.html");
+    header("Location: ../login.php");
     exit();
 }
 
@@ -28,7 +28,7 @@ if (isset($_POST['logout'])) {
     session_destroy();
 
     // Redirect to login page after logout
-    header("Location: ../login.html");
+    header("Location: ../login.php");
     exit();
 }
 
