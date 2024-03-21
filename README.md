@@ -25,7 +25,7 @@ To install PennyPal locally, follow these steps:
 
 1. Install XAMPP on your device. You can download XAMPP from https://www.apachefriends.org/index.html.
 2.	Clone the source code from GitHub: https://github.com/tuho9428/PennyPal
-3.	Download  the source code for phpmailer from GitHub: https://github.com/PHPMailer/PHPMailer or find it in the zip file
+3.	Download  the source code for phpmailer from GitHub: https://github.com/PHPMailer/PHPMailer
 4.	Place the folder named PennyPal and phpmailer into C:\xampp\htdocs\.
 5.	Start Apache and MySQL in XAMPP.
 
